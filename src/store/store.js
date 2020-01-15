@@ -8,9 +8,6 @@ import Vuex from 'vuex'
 */
 import pathify from './pathify'
 
-import * as getters from './getters'
-import * as actions from './actions'
-import mutations from './mutations'
 import app from './modules/app/store.js'
 import context from './modules/context/store.js'
 
@@ -22,8 +19,6 @@ export default new Vuex.Store({
         foo: 883
     },
     modules: {app, context},
-    actions,
-    mutations,
     plugins: [pathify.plugin]
 })
 
