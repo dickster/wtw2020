@@ -1,7 +1,10 @@
 <template>
     <v-toolbar dark dense>
         <v-app-bar-nav-icon></v-app-bar-nav-icon>
-        <v-toolbar-title >{{user}}</v-toolbar-title>
+        <v-toolbar-title >{{title}}
+        </v-toolbar-title>
+        <v-spacer></v-spacer>
+           <div class="caption"> {{user}}</div>
     </v-toolbar>
 </template>
 

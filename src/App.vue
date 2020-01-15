@@ -11,12 +11,15 @@
                                  fixed
                                  :value="hasDrawer() && drawer.visible"
                                  :width="drawer.width"
-                                 color="primary lighten-2  "
+                                 color="primary lighten-2"
                                  :mini-variant="drawer.mini"
                                  app
                                  hide-overlay
                                  :mini-variant-width="drawer.miniWidth"
             >
+
+                <!--// TODO : pass any relevant state props to view. instead of coupling them to state.-->
+                <!--// i.e. pass get('app/drawer') as 'layout' prop-->
 
                 <router-view name="nav"></router-view>
 
@@ -30,25 +33,16 @@
 
 <script>
     import pathify from 'vuex-pathify'
+    import {get,set} from 'vuex-pathify'
 
     export default {
         name: "App",
         components: {},
 
-
-
-
         computed: {
 
-            drawer() {
+            drawer: get('app/drawer'),
 
-                return {
-                    miniWidth: 90,
-                    mini: false,
-                    visible: true,
-                    width: 300
-                }
-            },
             theme() {
                 return this.$store.getters['app/theme']
             },
@@ -70,8 +64,6 @@
         },
 
         async created() {
-            console.log(pathify.debug())
-
         }
 
     }

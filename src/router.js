@@ -12,15 +12,15 @@ export default new Router({
     routes: [
         {
             path: '/',
-            props: { title:'hello'},
+            props: { header:{title:'hello'}},
             name: 'helloworld',
             components: {default: HelloWorld, header: Header, nav: Nav}
         },
         {
             path: '/foo',
-            props: {title:'Foo'},
+            props: { header:{title:'foo'}},
             name: 'foo',
-            components: {default:FooBar}
+            component: FooBar
         }
     ]
 })
