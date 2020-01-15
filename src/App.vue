@@ -1,28 +1,56 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-  </div>
+    <v-app :class="theme">
+
+        <v-content style="outline:1px solid blue;">
+            <router-view name="header"></router-view>
+            <v-slide-y-transition  mode="out-in">
+                <router-view></router-view>
+            </v-slide-y-transition>
+            <router-view name="footer"></router-view>
+            <router-view name="nav"></router-view>
+            <router-view name="drawer"></router-view>
+        </v-content>
+
+    </v-app>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+    import pathify from 'vuex-pathify'
 
-export default {
-  name: 'app',
-  components: {
-    HelloWorld
-  }
-}
+    export default {
+        name: "App",
+        components: {},
+
+        computed: {
+            theme() {
+                return this.$store.getters['app/theme']
+            },
+
+        },
+        data() {
+            return {}
+
+        },
+
+        mounted() {
+        },
+
+
+        methods: {},
+
+        async created() {
+            console.log(pathify.debug())
+
+        }
+
+    }
+    ;
 </script>
 
+<style lang="sass" scoped>
+
+</style>
+
 <style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+
 </style>
