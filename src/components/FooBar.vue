@@ -2,6 +2,7 @@
     <v-container fluid style="background:yellowgreen;">
         FOOBAR
         <v-btn large @click="$router.push('/')">Go Back...</v-btn>
+        <v-btn large @click="$router.push('/secret')">Go to secret page</v-btn>
         <i class="fas fa-glasses pl-3 fa-4x"></i>
         <h1>{{title}}</h1>
 

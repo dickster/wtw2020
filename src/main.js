@@ -57,6 +57,22 @@ Vue.filter('dateFilter', function(value) {
 })
 
 
+function allowAccess(to,from) {
+    return to.name!='secret'
+}
+
+
+router.beforeEach((to, from, next) => {
+    if (to.name!='no-access' && !allowAccess(to,from)) next(
+        {
+            name:'no-access',
+            params:{target:to, reason:'access not allowed', back:from||{name:'login'}}
+        });
+    else next()
+});
+
+
+
 new Vue({
     data() {
         return { /* put any global data you want here */};

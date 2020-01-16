@@ -5,7 +5,7 @@
                 wrap
         >
             <v-col cols="12">
-                <v-btn large @click="$router.push('/foo')">large button</v-btn>
+                <v-btn large @click="$router.push('/foo')">Go to FOO</v-btn>
 
 
             </v-col>

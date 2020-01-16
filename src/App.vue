@@ -2,6 +2,7 @@
     <v-app :class="theme">
 
         <v-content style="outline:1px solid blue;">
+
             <router-view name="header"></router-view>
             <v-slide-y-transition mode="out-in">
                 <router-view></router-view>
@@ -33,7 +34,7 @@
 
 <script>
     import pathify from 'vuex-pathify'
-    import {get,set} from 'vuex-pathify'
+    import {get, set} from 'vuex-pathify'
 
     export default {
         name: "App",
@@ -59,7 +60,9 @@
 
         methods: {
             hasDrawer() {
-                return !!this.$router.currentRoute.matched[0].components.nav
+                return this.$router.currentRoute.matched &&
+                    this.$router.currentRoute.matched.length > 0 &&
+                    !!this.$router.currentRoute.matched[0].components.nav
             },
         },
 
