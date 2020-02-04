@@ -1,21 +1,26 @@
 import Vue from 'vue'
 
-
 const app = {
     namespaced: true,
     state: {
         theme:'default-theme',
 
+        /* stores app wide validation results */
+        validation: null,
+
+        bar: {
+            clippedLeft:true
+        },
+
         drawer: {
             miniWidth: 90,
+            clipped:true,
             mini: false,
             visible: true,
             width: 300
         }
 
-        // footer options,
-        // header & toolbar options
-        // date formats, number formats etc....
+        // footer, header, error, dialogs, etc...
     }
 }
 

@@ -10,15 +10,28 @@ import pathify from './pathify'
 
 import app from './modules/app/store.js'
 import context from './modules/context/store.js'
+import data from './modules/data/store.js'
+import settings from './modules/settings/store.js'
 
 Vue.use(Vuex)
 
+const modules = {app, context, data, settings}
 
 export default new Vuex.Store({
     state: {
-        foo: 883
+        /* its all declared within the modules..nothing here */
     },
-    modules: {app, context},
+    getters: {
+        modules(state) {
+            return {
+                app:app.state,
+                context:context.state,
+                data:data.state,
+                settings:settings.state
+            }
+        }
+    },
+    modules: modules,
     plugins: [pathify.plugin]
 })
 

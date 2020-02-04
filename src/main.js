@@ -13,11 +13,13 @@ import moment from 'moment'
 import VueTheMask from 'vue-the-mask'
 import Vuetify from "vuetify/lib";
 
+import serviceContainer from './serviceContainer';
+
+
 Vue.config.productionTip = false
 
 Vue.use(VueTheMask)
 Vue.use(VueObserveVisibility)
-
 Vue.use(vueNumeralFilterInstaller, {locale: 'en-gb'});
 
 Vue.use(VueGoogleMaps,
@@ -77,6 +79,7 @@ new Vue({
     data() {
         return { /* put any global data you want here */};
     },
+    provide: serviceContainer,
     vuetify,
     store,
     router,

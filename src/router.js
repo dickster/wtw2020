@@ -1,11 +1,11 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import HelloWorld from './components/HelloWorld'
-import Header from './components/Header'
-import NoAccess from './components/NoAccess'
-import FooBar from './components/FooBar'
-import Nav from './components/Nav'
-import Secret from './components/SecretPage'
+import HelloWorld from './pages/HelloWorld'
+import Header from './pages/Header'
+import NoAccess from './pages/NoAccess'
+import FooBar from './pages/FooBar'
+import Stepper from './components/Stepper'
+import Secret from './pages/SecretPage'
 
 Vue.use(Router)
 
@@ -26,7 +26,7 @@ export default new Router({
             path: '/',
             props: { header:{title:'hello'}},
             name: 'helloworld',
-            components: {default: HelloWorld, header: Header, nav: Nav}
+            components: {default: HelloWorld, header: Header, nav: Stepper}
         },
         {
             path: '/secret',
