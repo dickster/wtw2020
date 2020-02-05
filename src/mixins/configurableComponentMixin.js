@@ -1,5 +1,6 @@
 
 import {get, set} from 'vuex-pathify';
+import evaluationService from "../services/evaluationService";
 
 
 export default {
@@ -15,37 +16,15 @@ export default {
     },
 
     computed: {
-
-        errorMessages() {
-            return (this.validation||[])
-                .map(v=>v.msg||v.code)
-                .join('.  ')
+        rules() {
+            return [
+                this.evaluationService.ruleFor(this.config.validation, this.exprContext)
+            ]
         },
 
-        // VUEX has predefined context which is .js code run (independent of data) and returns an object.
-        // this code must be run on server side...should be part of expression service.
-
-        validation() {
-            // could have config.validation...
-            //  - 'it>8'                single string
-            //  - ['it>8', 'it<100']    array of strings
-            //  - 'required'            reserved word (which is mapped to a string later)
-            //  - ['required', 'it>6']  array of words,
-            //  - { expr: 'it>8', msg: 'must be greater than 8' }      // validation object. uses "expr" property
-            //  - { expr: 'it>8', msg: 'must be greater than 8', code:'CX8' }      // optional code/msg property
-            //  - { expr: 'it>8', code:'CX8' }      //  this is useful for localization
-            //  - [ { expr: 'it>8', msg: 'must be greater than 8' }, {'it<10', msg:'too big'  }  // array of above
-            //  - ['required', {expr:'$.foo.length>6', code:-1}]   // mix and match.
-            let input = Array.isArray(this.config.validation) ? this.config.validation : [this.config.validation]
-
-            return input.reduce((a,v)=> {
-                    let result = this.validate(v)
-                    if (result) {
-                        a.push(result)
-                    }
-                    return a
-                }, [])
-
+        items() {
+            // if empty... $store.dispatch('lists/${config.items.key})
+            // return get('lists/...' )
         },
 
         visible() {
@@ -81,10 +60,6 @@ export default {
             return this.evaluationService.evaluate(expr, this.exprContext())
         },
 
-        validate(expr) {
-            return this.evaluationService.validate(expr, this.exprContext())
-        },
-
         exprContext(value) {
             // get default context which contains useful macros from VUEX (it is set there at load time).
 
@@ -102,7 +77,7 @@ export default {
             //   }
             //   @@it's possible that some validations should only be done on the client side.
 
-            // TODO : read this from VUEX.
+            // TODO : read this from VUEX.  hard coded here now as POC
             let immutableContextFromSettings = {
                 $today: "new Date()",
                 // $day:
@@ -121,8 +96,6 @@ export default {
             let context = {...immutableContextFromSettings, '$':"data.root"}
 
             let modules = this.$store.getters.modules
-            this.$store.dispatch('test','foo')
-            this.$store.dispatch('settings/test','foo')
 
             context = Object.keys(context)
                 .reduce( (a,k)=> {

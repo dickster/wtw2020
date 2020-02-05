@@ -52,7 +52,7 @@
                                     type: "TextField",
                                     bind: "bar",
                                     label: "Bar",
-                                    validation: "it>8",
+                                    validation: ["!!it", "$.max(it, $.blargh)<10"],
                                     labelWidth:4,
                                     width: 12
                                 }

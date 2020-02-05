@@ -4,19 +4,28 @@
 export default {
 
     // TODO : needs to handle reserved words like 'required', 'email', 'phone', etc...
+    reservedKeywords : {
+        required: "!!it",
+    },
 
-    // keywords : {
-    //    required: "!!it""
-    //    email: it.match(someRegexp)
-    //    phone: it.match(anotherRegexp)
-    //    money: it>=0 && less than 2 digits??
+    // this would be read in from config file.
+    configurableFunctions: {
+      isEmail : "true"
+    },
+
+    basicFunctions: {
+        sum: (x,y) => x*1 + y*1,
+        max: (...v) => [...v].reduce((a,b)=>Math.max(a,b),0)
+    },
+
+
+
+    // const rule = evaluationService.ruleFor(this.config.validation, this.exprContext)
 
     evaluate(expression, context={}) {
         try {
-            //TODO : need to add custom functions to the context here.
-            // context.sum = (x,y)=>x+y  etc...
-            // could add configurable functions.
             if (!expression) return
+            context['$'] = {...this.basicFunctions, ...context['$']}
             // check for keywords and do substitutions.
             let fn = new Function(Object.keys(context), 'return ' + expression)
             return fn(...Object.values(context))
@@ -29,9 +38,40 @@ export default {
         }
     },
 
+    ruleFor(validation, contextFactory=()=>{}) {
+        return (v) => {
+            let context = contextFactory(v)
+            let result = this.validate(validation, context)
+            return result.length>0 ?
+                result.map(v=>v.msg||v.code||v.validation).join('  ') :
+                true
+        }
+    },
+
+
+    // keywords
+    // keywords : {
+    //    required: "!!it"
+    //    email: it.match(someRegexp)
+    //    phone: it.match(anotherRegexp)
+    //    money: it>=0 && less than 2 digits??
+
+
     validate(validation, context) {
+        let input = Array.isArray(validation) ? validation : [validation]
+        return input.reduce((a,v)=> {
+            let result = this.validateInstance(v, context)
+            if (result) {
+                a.push(result)
+            }
+            return a
+        }, [])
+    },
+
+    validateInstance(validation, context) {
 
         // TODO : need to filter out server side only validations.
+        // TODO : need to replace keywords macros with their function.  e.g. 'required' -> '!!it'
         //
         // validation can be an object or a expression string or it can be an array of either.  (array is AND'd)
         //
@@ -47,17 +87,21 @@ export default {
 
         let details =  context
         let result = undefined
-        if (validation.expr) {
-            result = !this.evaluate(validation.expr, context)
-                            && {...validation, details }
+        let expr = this.resolveKeyword(validation.expr||validation)
+        let error = {
+            validation:expr,
+            msg: validation.msg||'expression is not satisfied ' +  validation,
+            code:validation.code||-1,
+            details
         }
-        else {
-            result = !this.evaluate(validation, context) &&
-                { code: -1, msg: 'expression is not satisfied ' +  validation , details:details }
-        }
+
+        return !this.evaluate(validation, context) && error
         // TODO : should evaluate expressions because message could be... ' ${config.label} must be greater than 5 but was ${it}'
         // result.msg.replace("//g ${??}", evaluate({??}, context} )
-        return result
+    },
+
+    resolveKeyword(expr) {
+        return expr
     }
 
 }

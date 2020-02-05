@@ -7,15 +7,14 @@
             {{config.label}}
         </v-col>
 
+                    <!--v-bind="$attrs"-->
+                    <!--v-on="$listeners"-->
+                    <!--:append-icon="appendIcon"-->
+                    <!--:prepend-icon="prependIcon"-->
         <v-col :cols="!config.label?12:12-(config.labelWidth||8)" style="padding-right:0;">
             <v-text-field
-                    filled
-                    v-bind="$attrs"
-                    v-on="$listeners"
+                    hide-details="auto"
                     :rules="rules"
-
-                    :append-icon="appendIcon"
-                    :prepend-icon="prependIcon"
                     @change="emit('change',$event)"
                     v-model="value">
             </v-text-field>
@@ -38,20 +37,6 @@
         data: () => ({}),
 
         computed: {
-            rules() {
-                const rules = []
-
-
-                //     evaluate(returns function(v,....))
-                //         const rule =
-                //             v => (v || '').length <= this.max ||
-                //                 `A maximum of ${this.max} characters is allowed`
-                //
-                //         rules.push(rule)
-                //
-                // },
-                return rules
-            },
             prependIcon() {
                 return this.config.prependIcon
             },
