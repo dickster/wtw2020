@@ -10,6 +10,8 @@ export default {
 
     // this would be read in from config file.
     configurableFunctions: {
+        // TODO : when handling basic functions, go over these.  turn them in to functions (just the once)
+        //  and add them to the list.  should check for duplicates when doing so.
       isEmail : "true"
     },
 
@@ -19,9 +21,11 @@ export default {
     },
 
 
-
-    // const rule = evaluationService.ruleFor(this.config.validation, this.exprContext)
-
+    // note the difference between "validating" and simply evaluating and expression.
+    // a validation is an expression, that if it evaluates to false, is treated as an error and returns a error object.
+    //  i.e. if "it>8" returns false, will return "error should be > 8".
+    // if you simply call evaluate, it will return the boolean (false in this case).
+    // vuetify "rules" are required to return strings which is what is done in "ruleFor"
     evaluate(expression, context={}) {
         try {
             if (!expression) return
@@ -87,7 +91,7 @@ export default {
 
         let details =  context
         let result = undefined
-        let expr = this.resolveKeyword(validation.expr||validation)
+        let expr = this.reservedKeywords[(validation.expr||validation).trim()]|| expr
         let error = {
             validation:expr,
             msg: validation.msg||'expression is not satisfied ' +  validation,
@@ -100,8 +104,5 @@ export default {
         // result.msg.replace("//g ${??}", evaluate({??}, context} )
     },
 
-    resolveKeyword(expr) {
-        return expr
-    }
 
 }
