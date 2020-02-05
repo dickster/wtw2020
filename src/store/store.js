@@ -15,19 +15,30 @@ import settings from './modules/settings/store.js'
 
 Vue.use(Vuex)
 
+// TODO : change to createModule(app)
 const modules = {app, context, data, settings}
 
+// Note that the store will have serviceContainer injected into it.  so any modules wanting a repo/service can use
+//    serviceContainer.someRepository
 export default new Vuex.Store({
     state: {
         /* its all declared within the modules..nothing here */
     },
+    actions: {
+        test ({ commit }, payload) {
+            console.log('serviceContainer ' + this.$serviceContainer)
+            }
+        },
     getters: {
         modules(state) {
+
+
             return {
                 app:app.state,
                 context:context.state,
                 data:data.state,
                 settings:settings.state
+            //    TODO : add lists...
             }
         }
     },

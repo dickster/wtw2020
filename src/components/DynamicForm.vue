@@ -1,14 +1,21 @@
 <template>
 
+    <!--should this be a form or just a container???  I dont think I need a form?/??? -->
     <v-form class="dynamic-form">
+
+        <!--this level should listen to validation & @input events. -->
+
+
 
         <div v-if="conf">
             <template v-for="(section,i) in conf.sections">
 
-                <!--TODO :  add ability to have v-flip component for each. -->
+                <!--TODO : add ability to have v-flip component for each. -->
                 <!-- i.e. designate a section has front/back of flipper-->
                 <!-- if so will automatically add a "flip" button at bottom -->
                 <!-- which can be configured by section.config.flip {icon: '', class:'', hide:false, position:'BR'}-->
+                <!-- hmmm...this should be done at the config level.  choose type=FlippableSection instead of SimpleSection-->
+                <!-- or add the code to SimpleSection. -->
 
                 <!--<configurable-section-->
                         <!--:key="i"-->
@@ -18,7 +25,10 @@
                 <!--</configurable-section>-->
             </template>
 
-            <v-row :wrap="!config.noWrapRow"
+            <!-- TODO : would be nice to add an aspect that could augment/change the config data -->
+            <!-- for example: it could set config.disabled=TRUE to all components given a condition. -->
+            <!--basically a chain of lambdas around row.widgets -->
+            <v-row :wrap="!conf.noWrapRow"
                    no-gutters
                    v-for="(row,r) in conf.rows"
                    :key="r">
@@ -31,9 +41,10 @@
                 -->
 
                 <template v-for="(widget,c) in row.widgets">
-                    <transition :name="config.rowTransition||'slide-y-transition'">
+                    <transition :name="conf.rowTransition||'slide-y-transition'">
 
                         <configurable-component
+                                :ref="r+c"
                                 v-on:b1change="emit($event)"
                                 :parent="parent"
                                 :config="widget">
@@ -50,17 +61,17 @@
             </v-row>
 
             <template v-for="section in conf.sections">
-                <configurable-section
-                        v-if="!section.beforeRows && vis(section)"
+                <dynamic-section
+                        v-if="!section.beforeRows"
                         :parent="section.bind"
                         :config="section">
-                </configurable-section>
+                </dynamic-section>
             </template>
 
         </div>
 
         <template v-else>
-            (no configuration given for questions)
+            (no configuration given for questions) {{parent}}
         </template>
     </v-form>
 
@@ -79,25 +90,10 @@
     export default {
         mixins: [configurableComponentMixin],
         components: {ConfigurableComponent, DynamicSection},
+        inject: ['evaluationService'],
         props: ['config', 'parent'],
 
         methods: {
-            // TODO : refactor this into configurableComponentMixin.
-            vis(config) {
-                //TODO : refactor this into generic service/plugin
-                // $expressionEvaluator.withContext({}).bind(this).eval(expr)
-                // allow custom context objects.
-                if (!config.expression) return true;
-                let fn = new Function('value', 'policy', '$', 'return ' + config.expression);
-                let context = {
-                    value: this.value,
-                    config: config,
-                    parent: this.parent,
-                    it: this.value
-                };
-                let result = fn(this.value, this.$policy, context);
-                return result
-            },
             emit($event) {
                 this.$emit('b1change', $event)
             },

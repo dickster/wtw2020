@@ -21,7 +21,13 @@ const settings = {
             $today: "new Date()",
             $user: { client: "user"  /*server: not run, ignored*/}
         }
+    },
+    actions: {
+        test ({ commit }, payload) {
+            console.log('serviceContainer ' + this.$serviceContainer)
+        }
     }
+
 }
 
 export default settings

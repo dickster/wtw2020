@@ -37,13 +37,22 @@
                                     label: "Foo",
                                     labelWidth:4,
                                     visible:"$.bar>5",
+                                    validation: {expr:"it>3 && $.bar>10",msg:"value must be > 3 and bar > 10", code:-1},
+                                    width: 12
+                                },
+                                {
+                                    type: "TextField",
+                                    bind: "blargh",
+                                    label: "Blarg",
+                                    labelWidth:4,
+                                    validation: ["!!it", "it.length>3", "$me=='Derek Dick'"],
                                     width: 12
                                 },
                                 {
                                     type: "TextField",
                                     bind: "bar",
                                     label: "Bar",
-                                    visible: "$me=='Derek'",
+                                    validation: "it>8",
                                     labelWidth:4,
                                     width: 12
                                 }

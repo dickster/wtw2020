@@ -1,15 +1,21 @@
 <template>
 
-    <!--TODO: add configurable transition names.-->
-    <!--v-on="$attrs" -->
-    <!-- that way i can globally set disabled attribute for all in parent. -->
-
-
     <v-col  v-if="visible"
             style=""
             :cols="config.width"
             :offset="config.offset"
-            :key="config.bind">
+            >
+
+        <!--how will non-config components handle validation??? -->
+        <!-- they have to do it by -->
+        <!-- this should propogate @input events up to parent. -->
+        <!-- as well as validation events. -->
+        <!-- specify which events you want to listen to
+            v-on=config.events   => transform all values so callback is ()-=>$emit(eventName, {payload})-->
+
+        <!-- TODO : pass event listeners & attributes here. -->
+        <!-- each component is responsible for passing them through to proper component. -->
+        <!-- i.e. TextField passes attributes/listeners on to the <input type="text"> element -->
 
         <component
                 @wtw-event="handleEvent($event)"
@@ -21,9 +27,8 @@
 
     </v-col>
 
-
-
 </template>
+
 
 <script>
 
@@ -31,7 +36,6 @@
 
     export default {
         mixins: [configurableComponentMixin],
-        inject: ['evaluationService'],
 
         data() {
             return {}

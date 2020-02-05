@@ -75,6 +75,13 @@ router.beforeEach((to, from, next) => {
 
 
 
+
+//TODO : change this store creation/setting so I can inject serviceContainer.
+//  i.e. store = createStore(serviceContainer), instead of just importing store.
+// https://codeburst.io/dependency-injection-with-vue-js-f6b44a0dae6d
+
+store.$serviceContainer = serviceContainer
+
 new Vue({
     data() {
         return { /* put any global data you want here */};

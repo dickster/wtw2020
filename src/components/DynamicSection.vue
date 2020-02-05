@@ -1,8 +1,10 @@
 <template>
 
     <div>
+
+        <!--TODO : add ability to have v-flip.  if config.front || config.back, then -->
         <!--how to make this transition configurable? or not exist?-->
-        <!--need to refactor expression evaluation into service/plugin-->
+
         <v-slide-y-transition>
 
             <!--sections take items or item? or just bind?-->
@@ -17,12 +19,14 @@
     </div>
 </template>
 
+
 <script>
     export default {
         props: ['config','parent'],
         data() {
             return {}
         },
+
         computed: {
             componentType() {
                 let type=this.config.type
@@ -43,6 +47,5 @@
 </script>
 
 <style scoped>
-
 
 </style>
