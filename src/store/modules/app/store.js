@@ -1,5 +1,6 @@
 import Vue from 'vue'
 
+// TODO : later on this will be read from DB.
 import pages from './pages'
 
 const app = {

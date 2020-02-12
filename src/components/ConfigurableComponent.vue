@@ -20,7 +20,9 @@
         <component
                 @wtw-event="handleEvent($event)"
                 :is="componentType"
+                value="foobar"
                 :config="config"
+                @input="$emit('input',$event)"
                 :parent="parent"
         >
         </component>

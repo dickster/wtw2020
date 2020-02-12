@@ -3,30 +3,34 @@
     <!--should this be a form or just a container???  I dont think I need a form?/??? -->
     <div class="dynamic-form">
 
-        <div v-if="conf">
-            <template v-for="(section,i) in conf.sections">
 
-                <!--TODO : add ability to have v-flip component for each. -->
-                <!-- i.e. designate a section has front/back of flipper-->
-                <!-- if so will automatically add a "flip" button at bottom -->
-                <!-- which can be configured by section.config.flip {icon: '', class:'', hide:false, position:'BR'}-->
-                <!-- hmmm...this should be done at the config level.  choose type=FlippableSection instead of SimpleSection-->
-                <!-- or add the code to SimpleSection. -->
+        {{JSON.stringify(stuff)}}
+        <div v-if="config">
 
-                <!--<configurable-section-->
-                        <!--:key="i"-->
-                        <!--v-if="section.beforeRows && visible(section)"-->
-                        <!--:parent="section.bind?parent[section.bind]:parent"-->
-                        <!--:config="section">-->
-                <!--</configurable-section>-->
-            </template>
+            <!--<template v-for="(section,i) in sections">-->
+
+            <!--&lt;!&ndash;TODO : add ability to have v-flip component for each. &ndash;&gt;-->
+            <!--&lt;!&ndash; i.e. designate a section has front/back of flipper&ndash;&gt;-->
+            <!--&lt;!&ndash; if so will automatically add a "flip" button at bottom &ndash;&gt;-->
+            <!--&lt;!&ndash; which can be configured by section.config.flip {icon: '', class:'', hide:false, position:'BR'}&ndash;&gt;-->
+            <!--&lt;!&ndash; hmmm...this should be done at the config level.  choose type=FlippableSection instead of SimpleSection&ndash;&gt;-->
+            <!--&lt;!&ndash; or add the code to SimpleSection. &ndash;&gt;-->
+
+            <!--&lt;!&ndash;<configurable-section&ndash;&gt;-->
+            <!--&lt;!&ndash;:key="i"&ndash;&gt;-->
+            <!--&lt;!&ndash;v-if="section.beforeRows && visible(section)"&ndash;&gt;-->
+            <!--&lt;!&ndash;:parent="section.bind?parent[section.bind]:parent"&ndash;&gt;-->
+            <!--&lt;!&ndash;:config="section">&ndash;&gt;-->
+            <!--&lt;!&ndash;</configurable-section>&ndash;&gt;-->
+            <!--</template>-->
 
             <!-- TODO : would be nice to add an aspect that could augment/change the config data -->
             <!-- for example: it could set config.disabled=TRUE to all components given a condition. -->
             <!--basically a chain of lambdas around row.widgets -->
-            <v-row :wrap="!conf.noWrapRow"
+
+            <v-row :wrap="!config.noWrapRow"
                    no-gutters
-                   v-for="(row,r) in conf.rows"
+                   v-for="(row,r) in config.rows"
                    :key="r">
 
                 <!--TODO : i should make this component automatically put columns in rows based on 12 column rule.
@@ -37,12 +41,14 @@
                 -->
 
                 <template v-for="(widget,c) in row.widgets">
-                    <transition :name="conf.rowTransition||'slide-y-transition'">
+                    <transition :name="config.rowTransition||'slide-y-transition'">
 
+                        <!--TODO : make all widgets emit input event. this is captured by parent form.-->
+                        <!--instead of having them tightly bound to VUEX. -->
+                        <!--need to pass value and listen for events -->
                         <configurable-component
-                                :ref="r+c"
-                                v-on:b1change="emit($event)"
-                                :parent="parent"
+                                @input="handleInput($event, widget)"
+                                :ref="c.ref"
                                 :config="widget">
                         </configurable-component>
 
@@ -56,13 +62,13 @@
                 </template>
             </v-row>
 
-            <template v-for="section in conf.sections">
-                <dynamic-section
-                        v-if="!section.beforeRows"
-                        :parent="section.bind"
-                        :config="section">
-                </dynamic-section>
-            </template>
+            <!--<template v-for="section in sections">-->
+            <!--<dynamic-section-->
+            <!--v-if="!section.beforeRows"-->
+            <!--:parent="section.bind"-->
+            <!--:config="section">-->
+            <!--</dynamic-section>-->
+            <!--</template>-->
 
         </div>
 
@@ -80,7 +86,7 @@
     import DynamicSection from './DynamicSection'
     import ConfigurableComponent from "./ConfigurableComponent"
     import configurableComponentMixin from '../mixins/configurableComponentMixin'
-
+    import {get, set} from 'vuex-pathify'
 
 
     export default {
@@ -90,30 +96,34 @@
         props: ['config', 'parent'],
 
         methods: {
+            handleInput(value, widget) {
+                console.log(JSON.stringify(value))
+                this.$store.set('data/root@' + widget.bind, value)
+            },
+
             emit($event) {
                 this.$emit('b1change', $event)
             },
 
-        },
+        }
+        ,
         computed: {
-            conf() {
-                return this.config
-            },
+            stuff: get('data/root')
+        }
+        ,
 
-
-        },
         mounted() {
 
-        },
+        }
+        ,
 
         created() {
 
 
-        },
+        }
+        ,
 
-        data: () => ({
-
-        }),
+        data: () => ({}),
     }
 </script>
 

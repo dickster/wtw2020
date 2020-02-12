@@ -7,16 +7,19 @@
             {{config.label}}
         </v-col>
 
-                    <!--v-bind="$attrs"-->
-                    <!--v-on="$listeners"-->
-                    <!--:append-icon="appendIcon"-->
-                    <!--:prepend-icon="prependIcon"-->
+        <!--v-bind="$attrs"-->
+        <!--v-on="$listeners"-->
+        <!--:append-icon="appendIcon"-->
+        <!--:prepend-icon="prependIcon"-->
+
+        <!--TODO : use $listeners & $attrs on underlying components. instead of hard coding @input= etc...-->
         <v-col :cols="!config.label?12:12-(config.labelWidth||8)" style="padding-right:0;">
             <v-text-field
                     hide-details="auto"
                     :rules="rules"
-                    @change="emit('change',$event)"
-                    v-model="value">
+                    :value="value"
+                    @input="$emit('input',$event)"
+                    >
             </v-text-field>
         </v-col>
     </span>
@@ -25,13 +28,13 @@
 
 <script>
 
-    import ConfigurableComponent from '../../mixins/configurableComponentMixin';
+    import ConfigurableComponentMixin from '../../mixins/configurableComponentMixin';
     import {get, set} from 'vuex-pathify';
 
 
     export default {
         inheritAttrs: false,
-        mixins: [ConfigurableComponent],
+        mixins: [ConfigurableComponentMixin],
         components: {},
 
         data: () => ({}),

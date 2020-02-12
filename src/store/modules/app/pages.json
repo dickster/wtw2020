@@ -1,6 +1,5 @@
-[
-  {
-    "id": "ClientInfo",
+{
+  "clientInfo": {
     "shortForm": "CI",
     "icon": "person",
     "label": "Client Info",
@@ -8,15 +7,18 @@
     "ui": {
       "rows": [
         {
-          "label": "Name",
-          "type": "TextField",
-          "icon": "more"
+          "widgets": [
+            {
+              "label": "Name",
+              "type": "TextField",
+              "bind": "name"
+            }
+          ]
         }
       ]
     }
   },
-  {
-    "id": "Fleet",
+  "fleet": {
     "shortForm": "F",
     "icon": "person",
     "label": "Fleet",
@@ -31,5 +33,5 @@
       ]
     }
   }
-]
+}
 

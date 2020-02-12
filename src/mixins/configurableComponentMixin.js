@@ -4,7 +4,7 @@ import evaluationService from "../services/evaluationService";
 
 
 export default {
-    props: ['config', 'parent'],
+    props: ['config', 'parent', 'value'],
     inject:['evaluationService'],
     components: {},
 
@@ -17,9 +17,8 @@ export default {
 
     computed: {
         rules() {
-            return [
-                this.evaluationService.ruleFor(this.config.validation, this.exprContext)
-            ]
+            return this.config.validation ? [
+                this.evaluationService.ruleFor(this.config.validation, this.exprContext)] : []
         },
 
         items() {
@@ -32,7 +31,7 @@ export default {
             return this.evaluate(this.config.visible)
         },
 
-        value: {
+        xxvalue: {
             get() {
                 // TODO : add parent stuff to store access.
                 return this.$store.get('data/root@'+this.config.bind)
