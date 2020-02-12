@@ -37,7 +37,7 @@
                                     label: "Foo",
                                     labelWidth:4,
                                     visible:"$.bar>5",
-                                    validation: {expr:"it>3 && $.bar>10",msg:"value must be > 3 and bar > 10", code:-1},
+                                    validation: {expr:"it>3 && $.bar>10",mode:"server", msg:"value must be > 3 and bar > 10", code:-1},
                                     width: 12
                                 },
                                 {
@@ -45,14 +45,14 @@
                                     bind: "blargh",
                                     label: "Blarg",
                                     labelWidth:4,
-                                    validation: ["!!it", "it.length>3", "$me=='Derek Dick'"],
+                                    validation: "!!it",
                                     width: 12
                                 },
                                 {
                                     type: "TextField",
                                     bind: "bar",
                                     label: "Bar",
-                                    validation: ["!!it", "$.max(it, $.blargh)<10"],
+                                    validation: "$.max(it, $.blargh)<10",
                                     labelWidth:4,
                                     width: 12
                                 }

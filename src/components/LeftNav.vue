@@ -1,25 +1,24 @@
 <template>
 
-        <v-navigation-drawer v-if="visible()"
-                             class="left-nav"
-                             fixed
-                             v-model="drawer.visible"
-                             :clipped="drawer.clipped"
-                             :width="drawer.width"
-                             color=""
-                             :mini-variant="drawer.mini"
-                             app
-                             hide-overlay
-                             :mini-variant-width="drawer.miniWidth"
-        >
+    <v-navigation-drawer v-if="isVisible()"
+                         class="left-nav"
+                         fixed
+                         v-model="drawer.visible"
+                         :clipped="drawer.clipped"
+                         :width="drawer.width"
+                         color=""
+                         :mini-variant="drawer.mini"
+                         app
+                         hide-overlay
+                         :mini-variant-width="drawer.miniWidth"
+    >
 
-            <p style="word-wrap:break-word;">{{JSON.stringify($store.get('data',null,2))}}</p>
-            <!--TODO : handle events, close, mini, max, open -->
-            <template slot-scope="scope">
-                <slot :close="close" :max="max"></slot>
-            </template>
-        </v-navigation-drawer>
-
+        <!--TODO : handle events, close, mini, max, open -->
+        <slot @close="visible=false"
+              @mini="mini=true"
+              @resize="navResize"
+        ></slot>
+    </v-navigation-drawer>
 </template>
 
 <script>
@@ -31,16 +30,19 @@
 
         computed: {
             drawer: sync('app/drawer'),
+            mini: sync('app/drawer@mini'),
+            visible: sync('app/drawer@visible'),
+            // TODO : need to add maximize functionality...
+
         },
 
-        methods:{
-            visible() {
+        methods: {
+            isVisible() {
+                console.log('isvisible ' + this.visible)
                 return this.$slots.default
             }
         },
 
-        created() {
-        }
     };
 </script>
 

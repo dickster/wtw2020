@@ -1,11 +1,12 @@
 <template>
     <v-app :class="theme">
 
-
-
-
         <left-nav>
-            <router-view name="nav"></router-view>
+            <router-view
+                    @page-transition="transition($event)"
+                    :pages="pages"
+                    name="nav">
+            </router-view>
         </left-nav>
 
         <router-view name="header"></router-view>
@@ -16,11 +17,17 @@
                     fluid
             >
             <v-slide-y-transition mode="out-in">
-                <router-view></router-view>
+                <router-view
+                        name="default"
+                        @page-transition="transition($event)">
+                </router-view>
+                <!--TODO : embed (another) footer inside  main view.  that's where action buttons will live. -->
             </v-slide-y-transition>
 
-            <router-view name="footer"></router-view>
-            <router-view name="drawer"></router-view>
+                <!--footer will be used for smaller status icons.-->
+
+            <router-view name="footer" @page-transition="transition($event)"></router-view>
+            <router-view name="drawer" @page-transition="transition($event)"></router-view>
 
             </v-container>
         </v-content>
@@ -38,11 +45,8 @@
         components: {LeftNav},
 
         computed: {
-
-            theme() {
-                return this.$store.getters['app/theme']
-            },
-
+            pages: get('app/pages'),
+            theme:get('app/theme')
         },
         data() {
             return {}

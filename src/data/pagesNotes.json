@@ -1,0 +1,248 @@
+{
+  "current": null,
+  "pages": [
+    {
+      "id": "ClientInfo",
+      "permissions": [
+        "groupName",
+        "userName",
+        "otherPermission"
+      ],
+      // when delegating to another user, you put your name and others in this list??
+      // no...you read it in from another DB and append it.
+      // permissions: {id:<policyId>, page: { clientInfo: [user1: {read, write}
+      // stepper...if page.permissions, ...pages.filter(hasPermission()) && visible)
+      // routerGuard will check permissions when going to page.
+      //   /rater/{page}/{itemId}/{subPage}.
+      // subPage = get configuration from
+
+      // page component =
+      //   page = /rater/clientInfo   getPage("clientInfo").   showConfigurablePage(page.config).
+      //   page = /rater/locations/12
+      // if page.component, load that component.  "pages/CLientInfo.vue".
+      // if page.config load ConfigurablePage(getPage("clientInfo").
+
+      // child=id:348, page="locations".   getPageConfig("clientInfo")[item]
+      // if child.component  how to pass {id}??
+      // rater/{page}/{itemId}
+      // /rater/locations/{0}   or policies,  policies/342   or   brokers| brokers/583 etc...
+      // itemId = null for first level ConfigurablePage.
+      // configurableApp --> Rater.    has its own pages, where does it get data from???
+      // rater/{id}/locations/934
+      "shortForm": "CI",
+      "icon": "person",
+      "label": "Client Info",
+      "bind": "$root",
+      "buttons": [
+        {
+          "name": "Next"
+        }
+      ],
+
+    "x":{
+      "type": "actionButton",
+      "action": "Next",
+      "label": "optionalLabel",
+//      actions will take the response and put it in VUEX with commit('actionResponse', actionConfig, response)
+      //   only map to vuex if success.    success: [http|code].
+      "action2": {"url":"blah", "params":{}, "resultMapping":{/*put data in VUEX*/},
+        "transition":{
+          "any":"next|first|last|previous|{pageName}",
+          "-1":{"path":"rater/locations/{id}"},   // by name...looks in router.js for named path.
+//          how to go to child route??  need variable substitution here...
+          "0|200":{"name":"rater/locations", "params":{"locationId":"{{$.lid}}"},
+          "*|404":"",
+
+// filter apps config based on user.   each app has permissions. (or some service to ask...GET   appPermissions/{user}
+            //   returns [rater, brokers, clients...]
+//          <router-link :to="{ name: 'user', params: { userId: 123 }}">User</router-link>
+          // .: need a JSONata config. or have expressions for all properties? and eval them all...
+// configurable app needs a default path to go to..?   /rater...goes to /rater/ClientInfo by default??
+          "2":{ "path":"/locations/{{itemId}}" },
+          "[0..100]":{ "path":"/locations/{{code}}" },    //eval with context including code/http added.
+          "":"",
+        },
+
+      "action3": {"page":"locations"},
+      "action2": {"repository":"repoName", "method": "list", "params": {} }}
+    },
+
+//    actions: { 'NEXT', || 'route' e.g.   /apps/foo/{id} ,   or pagename.  (searches page for id)  which is mapped to /rater }
+    // should reconstruct the url based on app name & page=>   /apps/{app}/{page}
+//    action : {
+//      actions: NEXT-> next visible page.,
+//               foo -> look for page with id "foo",
+//               /rater/{id}/foo
+//               /rater/{id}/locations/L83
+//      part of ItemList config is id to append  (use prop:"id").   clicking on item navigates to
+    //   baseUrl/{id}
+      "config": {
+        "title": "CAR",
+        "sections": [
+          {
+            "label": "General",
+            "type": "ItemList",
+            "icon": "more",
+            "item":  // configuration for child page.
+              {
+                "cols": [
+                  {
+                    "type": "ChipGroup",
+                    "bind": "hiredInPlant",
+                    "label": "What are the conditions of hire",
+                    "labelWidth": 9,
+                    "items": [
+                      "including CPA",
+                      "excluding CPA",
+                      "based on HAE"
+                    ],
+                    "width": 12
+                  },
+                  {
+                    "type": "Autocomplete",
+                    "bind": "contractPeriod",
+                    "label": "What is the maximum contract period length",
+                    "padding": 0,
+                    "labelWidth": 9,
+                    "width": 12,
+                    "items": [
+                      "12 months",
+                      "18 months",
+                      "24 months",
+                      "30 months",
+                      "36 months",
+                      "42 months",
+                      "48 months",
+                      "54 months",
+                      "60 months"
+                    ]
+                  },
+                  {
+                    "type": "ChipGroup",
+                    "bind": "theftCoverType",
+                    "label": "Theft cover type",
+                    "padding": 0,
+                    "expression": "policy.car.perilsRequired && policy.car.perilsRequired.includes('Theft')",
+                    "width": 12,
+                    "items": [
+                      "Standard Theft",
+                      "Full Theft"
+                    ]
+                  },
+                  {
+                    "type": "Autocomplete",
+                    "multiple": true,
+                    "chips": true,
+                    "bind": "perilsRequired",
+                    "label": "Perils Required",
+                    "labelWidth": 2,
+                    "width": 12,
+                    "items": [
+                      "Fire",
+                      "Lightning",
+                      "Aircraft",
+                      "Explosion",
+                      "Subsidence",
+                      "Earthquake",
+                      "Storm",
+                      "Flood",
+                      "Escape of water",
+                      "Balance of risks",
+                      "Theft",
+                      "Impact",
+                      "Accidental damage"
+                    ]
+                  }
+                ]
+              }
+
+          }
+        ]
+      }
+    },
+    {
+      "id": "Locations",
+      "component": "Locations",
+      "label": "Locations",
+      "shortForm": "L",
+      "icon": "business",
+      "bind": "locations",
+      "isLob": true,
+      "buttons": [
+        {
+          "name": "Next"
+        }
+      ]
+    },
+    {
+      "id": "Liability",
+      "component": "Liability",
+      "shortForm": "L",
+      "label": "Liability",
+      "isLob": "true",
+      "bind": "liability",
+      "buttons": [
+        {
+          "name": "Next"
+        }
+      ]
+    },
+    {
+      "id": "LE",
+      "label": "Legal Expenses",
+      "shortForm": "LE",
+      "bind": "legalExpenses",
+      "isLob": true,
+      "buttons": [
+        {
+          "name": "Next"
+        }
+      ]
+    },
+    {
+      "id": "CAR",
+      "label": "Contractors All Risks",
+      "shortForm": "CR",
+      "bind": "car",
+      "isLob": true,
+      "buttons": [
+        {
+          "name": "Next"
+        }
+      ]
+    },
+    {
+      "id": "Money",
+      "shortForm": "M",
+      "label": "Money",
+      "bind": "money",
+      "isLob": true,
+      "buttons": [
+        {
+          "name": "Next"
+        }
+      ]
+    },
+    {
+      "id": "Claims",
+      "label": "Claims",
+      "icon": "broken_image",
+      "buttons": [
+        {
+          "name": "Next"
+        }
+      ]
+    },
+    {
+      "id": "Summary",
+      "label": "Summary",
+      "icon": "format_list_bulleted",
+      "buttons": [
+        {
+          "name": "Next"
+        }
+      ]
+    }
+  ]
+}
+

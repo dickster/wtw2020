@@ -1,7 +1,10 @@
 import Vue from 'vue'
 
+import pages from './pages'
+
 const app = {
     namespaced: true,
+    currentPage: null,
     state: {
         theme:'default-theme',
 
@@ -11,6 +14,8 @@ const app = {
         bar: {
             clippedLeft:true
         },
+
+        pages:pages,
 
         drawer: {
             miniWidth: 90,

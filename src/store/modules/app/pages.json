@@ -1,0 +1,35 @@
+[
+  {
+    "id": "ClientInfo",
+    "shortForm": "CI",
+    "icon": "person",
+    "label": "Client Info",
+    "bind": "$root",
+    "ui": {
+      "rows": [
+        {
+          "label": "Name",
+          "type": "TextField",
+          "icon": "more"
+        }
+      ]
+    }
+  },
+  {
+    "id": "Fleet",
+    "shortForm": "F",
+    "icon": "person",
+    "label": "Fleet",
+    "bind": "fleet",
+    "ui": {
+      "rows": [
+        {
+          "label": "Vehicle",
+          "type": "TextField",
+          "bind": "vehicle"
+        }
+      ]
+    }
+  }
+]
+

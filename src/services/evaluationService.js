@@ -3,6 +3,9 @@
 //  be able to run on server side too.
 export default {
 
+    // TODO : what if the validations need access to lists.  we have to be able to synchronize.  somehow return a promise
+    // and finish evaluation later.   or make a method  await $.list('manufacturers') that checks VUEX and dispatches action if data not there
+
     // TODO : needs to handle reserved words like 'required', 'email', 'phone', etc...
     reservedKeywords : {
         required: "!!it",
@@ -12,7 +15,7 @@ export default {
     configurableFunctions: {
         // TODO : when handling basic functions, go over these.  turn them in to functions (just the once)
         //  and add them to the list.  should check for duplicates when doing so.
-      isEmail : "true"
+      isEmail : "/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(it)"
     },
 
     basicFunctions: {
@@ -76,7 +79,9 @@ export default {
 
         // TODO : need to filter out server side only validations.
         // TODO : need to replace keywords macros with their function.  e.g. 'required' -> '!!it'
-        //
+
+        // remove unused covers SAR.   new trade table.
+
         // validation can be an object or a expression string or it can be an array of either.  (array is AND'd)
         //
         // e.g. validation: {
@@ -86,20 +91,29 @@ export default {
         //    trim: true,
         //    case: upper|lower|ignore|respect,
         //   }
-        //  or validation = 'it.length>3'
+        // or validation = 'it.length>3'
         // or validation = ['it>9','sum($.foo,it)==100', ['apple','banana','pear'].contains(it))]
+        // or validation - { expr:"it>5" , mode:"client|server|both"
 
         let details =  context
         let result = undefined
-        let expr = this.reservedKeywords[(validation.expr||validation).trim()]|| expr
-        let error = {
-            validation:expr,
-            msg: validation.msg||'expression is not satisfied ' +  validation,
-            code:validation.code||-1,
-            details
-        }
 
-        return !this.evaluate(validation, context) && error
+        // need to put this aspect somewhere else.   also, how will the code know if it's run on the server or not?
+        // should be something like if (modeSupported(validation.mode))....
+        if (validation.mode=='server') return
+
+        let expr = (validation.expr||validation)
+        expr = this.reservedKeywords[expr.trim()] || expr
+
+        if (!this.evaluate(expr, context)) {
+            return {
+                validation:expr,
+                msg: validation.msg||'expression is not satisfied ' +  validation,
+                code:validation.code||-1,
+                details
+            }
+        }
+        return false
         // TODO : should evaluate expressions because message could be... ' ${config.label} must be greater than 5 but was ${it}'
         // result.msg.replace("//g ${??}", evaluate({??}, context} )
     },

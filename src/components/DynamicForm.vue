@@ -1,11 +1,7 @@
 <template>
 
     <!--should this be a form or just a container???  I dont think I need a form?/??? -->
-    <v-form class="dynamic-form">
-
-        <!--this level should listen to validation & @input events. -->
-
-
+    <div class="dynamic-form">
 
         <div v-if="conf">
             <template v-for="(section,i) in conf.sections">
@@ -73,7 +69,7 @@
         <template v-else>
             (no configuration given for questions) {{parent}}
         </template>
-    </v-form>
+    </div>
 
 
 </template>
