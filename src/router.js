@@ -7,7 +7,6 @@ import FooBar from './pages/FooBar'
 import Stepper from './components/Stepper'
 import Secret from './pages/SecretPage'
 import BasicApp from './pages/BasicApp'
-import BasicApp2 from './pages/BasicApp2'
 
 Vue.use(Router)
 
@@ -29,7 +28,7 @@ export default new Router({
 
         // /rater/{id}   children-> /rater/{id}/{page}  : children-> /rater/{id}/{page}/{itemId}
         // /{app}  if they require hard coded components, then they will be in codebase and filtered out.
-        //  if they are all dynamic,  (header uses configuration, stepper uses config, etc..
+        //  if they are all dynamic,  (header uses configuration, stepper uses config, etc...
         // when loading configurable app, look for component named apps/{appName}.  OR look for
         // NO, always must hard code routes.   ALL routes will be added at login based on permissions.
         //  routeRepository.forUser($me).getRoutes().install()
@@ -52,17 +51,17 @@ export default new Router({
         //   which iterates over properties..user can save personal settings for app - "dont show this column" etc...
 
         {
-            path: '/apps/:app',
+            path: '/apps/rater',
             props: {
                 header: {title: 'rootview'},
-                default: (route) => ({app: route.params.app})
+                default: (route) => ({page:'defaultpage'})
             },
             name: 'Rater',
             components: {default: BasicApp, header: Header}
         },
 
         {
-            path: '/apps/:app/:page',   // e.g.    /apps/rater/locations
+            path: '/apps/rater/:page',   // e.g.    /apps/rater/locations
             components: {default: BasicApp},
             props: {
                 header: {title: 'blargh'},
@@ -71,7 +70,7 @@ export default new Router({
         },
 
         {           // e.g.     /apps/rater/locations/23
-            path: '/apps/:app/:page/:item',
+            path: '/apps/rater/:page/:item',
             props: {
                 header: {title: 'item listing'},
                 default: (route) => ({page: route.params.page, item:route.params.item}),
@@ -79,9 +78,6 @@ export default new Router({
             components:{default:BasicApp, header:Header},
         }
 
-
-
-//
 // {
 //     path: '/',
 //     props: {header: {title: 'hello'}},

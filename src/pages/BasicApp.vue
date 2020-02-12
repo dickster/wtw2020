@@ -15,6 +15,10 @@
 
         })
 
+
+        // look at page,item, app and load config appropriately.
+        // for RATER app, need drawer config?
+
     };
 </script>
 
