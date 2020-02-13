@@ -2,10 +2,13 @@
     <v-container fluid style="background: mistyrose;">
         PAGE:{{page}}  ITEM:{{item}}
 
-        config:{{config}}
+        config:{{config.label}}
         <!--implicitly leaving :parent out at top level which means use vuex::/app/data -->
+        <!--ToDO: add injected accessor as prop.
+        e.g. :accessor=VUEXPathifyAccessor.withRoot('data/root')-->
         <dynamic-form
-                :config="config.ui" >
+                :config="config.ui"
+                :parent="config.bind">
         </dynamic-form>
     </v-container>
 </template>

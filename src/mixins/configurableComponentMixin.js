@@ -4,18 +4,17 @@ import evaluationService from "../services/evaluationService";
 
 
 export default {
-    props: ['config', 'parent', 'value'],
+    props: ['config', 'value'],
     inject:['evaluationService'],
     components: {},
 
     data: function() {
         return {
-            // this can be either a single error/warning or array of.
-            parentPath: this.parent || [],
         }
     },
 
     computed: {
+
         rules() {
             return this.config.validation ? [
                 this.evaluationService.ruleFor(this.config.validation, this.exprContext)] : []
@@ -31,16 +30,6 @@ export default {
             return this.evaluate(this.config.visible)
         },
 
-        xxvalue: {
-            get() {
-                // TODO : add parent stuff to store access.
-                return this.$store.get('data/root@'+this.config.bind)
-            },
-            set(value) {
-                return this.$store.set('data/root@'+this.config.bind, value)
-            }
-        },
-
         width() {
             // TODO : add ability to handle platform.
             // e.g. return config.mobile.width||config.width
@@ -50,14 +39,20 @@ export default {
     },
 
     created() {
-        console.log('parent ' + this.parent);
     },
 
     methods: {
+        // TODO : need to handle array inputs here.
+        // ie. parent = this.parent/:index
+        emitInput($event) {
+            this.$emit('wtw-input', {value:$event, widget:this.config})
+        },
 
         evaluate(expr) {
             return this.evaluationService.evaluate(expr, this.exprContext())
         },
+
+        // should put this in evaluationContextService?  not in mixin.
 
         exprContext(value) {
             // get default context which contains useful macros from VUEX (it is set there at load time).
@@ -108,22 +103,7 @@ export default {
             // i'm going to want to add parent here...
             // context['parent'] = this.$store.get('data/root@'+parent.join('.'))
             return context
-        },
-
-        emit(name,$event) {
-            if (this.config.events) {
-                let e = this.config.events[name]||name
-                //currently only handles change events, but others can be added...blur/focus/key/mouse etc...
-                this.$emit('wtw-event', {
-                    name:name,
-                    event: $event,
-                    parent: this.parent,
-                    source: this.config.bind,
-                    config: this.config,
-                    value: this.value
-                })
-            }
-        },
+        }
 
     }
 }

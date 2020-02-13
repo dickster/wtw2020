@@ -3,7 +3,7 @@
     "shortForm": "CI",
     "icon": "person",
     "label": "Client Info",
-    "bind": "$root",
+    "bind": "client.info",
     "ui": {
       "rows": [
         {

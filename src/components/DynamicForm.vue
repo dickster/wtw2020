@@ -3,30 +3,33 @@
     <!--should this be a form or just a container???  I dont think I need a form?/??? -->
     <div class="dynamic-form">
 
+        <!--Todo: change this to a simple form component that contains ConfigurableComponents
+        collection. this is because SEctions and other components will need that functionality without having the form.
+
+        -->
 
         {{JSON.stringify(stuff)}}
         <div v-if="config">
 
-            <!--<template v-for="(section,i) in sections">-->
-
-            <!--&lt;!&ndash;TODO : add ability to have v-flip component for each. &ndash;&gt;-->
-            <!--&lt;!&ndash; i.e. designate a section has front/back of flipper&ndash;&gt;-->
-            <!--&lt;!&ndash; if so will automatically add a "flip" button at bottom &ndash;&gt;-->
-            <!--&lt;!&ndash; which can be configured by section.config.flip {icon: '', class:'', hide:false, position:'BR'}&ndash;&gt;-->
-            <!--&lt;!&ndash; hmmm...this should be done at the config level.  choose type=FlippableSection instead of SimpleSection&ndash;&gt;-->
-            <!--&lt;!&ndash; or add the code to SimpleSection. &ndash;&gt;-->
-
-            <!--&lt;!&ndash;<configurable-section&ndash;&gt;-->
-            <!--&lt;!&ndash;:key="i"&ndash;&gt;-->
-            <!--&lt;!&ndash;v-if="section.beforeRows && visible(section)"&ndash;&gt;-->
-            <!--&lt;!&ndash;:parent="section.bind?parent[section.bind]:parent"&ndash;&gt;-->
-            <!--&lt;!&ndash;:config="section">&ndash;&gt;-->
-            <!--&lt;!&ndash;</configurable-section>&ndash;&gt;-->
-            <!--</template>-->
-
             <!-- TODO : would be nice to add an aspect that could augment/change the config data -->
             <!-- for example: it could set config.disabled=TRUE to all components given a condition. -->
             <!--basically a chain of lambdas around row.widgets -->
+            <!--another use case is to add $listeners or $attrs.
+                (this would require i add on=$listeners to conf component
+
+                @see https://github.com/vuejs/vue/releases/tag/v2.4.0
+
+                all wrapping components should use...
+                use inheritAttrs:false,
+                <div class="wrapper">
+                    <input v-bind="$attrs" v-on="$listeners">
+                </div>
+                if configurableCOmponent instance is unwrapped...
+                <template>
+                    <v-textarea></>
+                   </template>
+                   then the attrs &
+            -->
 
             <v-row :wrap="!config.noWrapRow"
                    no-gutters
@@ -46,10 +49,18 @@
                         <!--TODO : make all widgets emit input event. this is captured by parent form.-->
                         <!--instead of having them tightly bound to VUEX. -->
                         <!--need to pass value and listen for events -->
+                        <!--config.path.push(parent) -->
+                        <!--how to deal with array index?? -->
+
+                        <!--instead of :parent="item" in tabs, need to set parent to parent+'[index]'-->
+
                         <configurable-component
-                                @input="handleInput($event, widget)"
+                                v-on="listeners"
+                                v-bind="propsAndAttributes"
+                                :value="valueFor(widget)"
                                 :ref="c.ref"
                                 :config="widget">
+
                         </configurable-component>
 
                     </transition>
@@ -61,14 +72,6 @@
 
                 </template>
             </v-row>
-
-            <!--<template v-for="section in sections">-->
-            <!--<dynamic-section-->
-            <!--v-if="!section.beforeRows"-->
-            <!--:parent="section.bind"-->
-            <!--:config="section">-->
-            <!--</dynamic-section>-->
-            <!--</template>-->
 
         </div>
 
@@ -83,32 +86,64 @@
 
 <script>
 
+    // TODO: don't have sections in config.
+    // just have TYPE=SECTION which has its own child config??
+    //  for flipSection it has subsections = back/front.
+
     import DynamicSection from './DynamicSection'
-    import ConfigurableComponent from "./ConfigurableComponent"
-    import configurableComponentMixin from '../mixins/configurableComponentMixin'
+    import ConfigurableComponent from './ConfigurableComponent'
     import {get, set} from 'vuex-pathify'
+    import configurableComponentContainerMixin from '../mixins/configurableComponentContainerMixin'
 
 
     export default {
-        mixins: [configurableComponentMixin],
+        mixins: [configurableComponentContainerMixin],
         components: {ConfigurableComponent, DynamicSection},
-        inject: ['evaluationService'],
+        inject: ['evaluationService'],  //accessorService
         props: ['config', 'parent'],
 
         methods: {
-            handleInput(value, widget) {
-                console.log(JSON.stringify(value))
-                this.$store.set('data/root@' + widget.bind, value)
+
+            // TODO : maybe inject accessor. can be VUE based or whatever else...
+            // accessor does value, handleInput, emit.  that way this component is not tied to VUEX.
+
+            valueFor(widget) {
+                this.$store.get('data/root@' + widget.bind)
+            },
+            // ToDO : handle parent path - ['policy', 'locations', '[0]')
+            // path.join('.').replace('.[','[')
+
+            handleInput($event) {
+                let path = [this.parent || [], $event.parent || [], $event.widget.bind].flat()
+                console.log('setting ' + path)
+                this.$store.set('data/root@' + path.join('.'), $event.value)
             },
 
-            emit($event) {
-                this.$emit('b1change', $event)
-            },
 
         }
         ,
         computed: {
-            stuff: get('data/root')
+            stuff: get('data/root'),
+            listeners() {
+                return {
+                    ...this.config.listeners,
+                    'wtw-input': this.handleInput,
+                }
+            },
+
+            propsAndAttributes() {
+                //TODO : should lint the attributes and make sure they are valid HTML.
+                // actually, this should be done in the editor.
+                // should be either a valid HTML attribute or prefixed with "data-".
+
+                // will return config.attrs in future.
+                // allow for customization to add attrs @ runtime.
+                // e.g. return fn(config.attrs) => {...myAttrs, config.attrs}
+                return {
+                    title: 'foobar',
+                    myInvalidAttr: 'hello'
+                }
+            }
         }
         ,
 
