@@ -1,35 +1,32 @@
 <template>
 
-    <div>
         <v-card>
-            <!--TODO : maybe use sheet instead?-->
             <v-card-title v-if="config.label">{{config.label}}</v-card-title>
             <v-card-text>
-                <configurable-questions
-                                        ref="childQuestions"
-                                        :parent="parent"
-                                        :config="config"
-                ></configurable-questions>
+                <configurable-component-container
+                    :config="config.config"
+                    :parent="[...(config.bind||[]),...(parent||[])]"
+                    >
+
+                </configurable-component-container>
+
             </v-card-text>
             <v-card-actions>
-                <!--iterate over buttons-->
             </v-card-actions>
         </v-card>
-    </div>
-
 
 </template>
 
 
 <script>
-    import DynamicForm from '../DynamicForm';
 
+
+    import ConfigurableComponentContainer from "../ConfigurableComponentContainer";
     export default {
-        name: 'simple-section',
         props: [
             'config','parent'
         ],
-        components: {DynamicForm},
+        components: {ConfigurableComponentContainer},
 
         data: () => ({
 

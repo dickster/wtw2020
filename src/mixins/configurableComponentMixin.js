@@ -41,11 +41,24 @@ export default {
     created() {
     },
 
+    /* section: client
+            section: info
+                section: address:1
+                    widget: city
+
+
+sections have NO parent, just bind.
+only top level form has parent...but really, that's just bind.
+
+    textfield =>input.native
+    ConfComp::TextField =>wtw-input {'Toronto', ['city']}                   [...path, bind]
+    ConfSection::Address => wtw-input {'Toronto', ['address','1','city]     [bind,{index},...path]                  path='city'
+    ConfSection::INFO => wtw-input {'Toronto', ['info','address','city]     [bind, ...path]                         path=address,1,city
+    ConfSection::CLient => wtw-input {'Toronto', ['client','address','city] [bind, ...path]                         path=info,address,1,city
+     */
     methods: {
-        // TODO : need to handle array inputs here.
-        // ie. parent = this.parent/:index
         emitInput($event) {
-            this.$emit('wtw-input', {value:$event, widget:this.config})
+            this.$emit('wtw-input', {value:$event, path:[this.config.bind]})
         },
 
         evaluate(expr) {

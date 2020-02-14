@@ -5,7 +5,7 @@ import evaluationService from "../services/evaluationService";
 
 export default {
 
-    props: ['config', 'parent'],
+    props: ['config'],
     components: {},
 
     data: function() {
@@ -14,22 +14,20 @@ export default {
     },
 
     computed: {
-
     },
 
     created() {
     },
 
     methods: {
-        // TODO : need to handle array inputs here.
-        // ie. parent = this.parent/:index
         emitInput($event) {
-            this.$emit('wtw-input', {...$event, parent:[this.parent]})
+            // just rethrow it as is.  only forms (top level) & section containers need to augment event.path with their bindings.
+            this.$emit('wtw-input', $event)
         },
-        emitIndexedInput($event,index) {
-            this.$emit('wtw-input', {...$event, parent:[this.parent, index]})
-        }
 
+        emitIndexedInput($event, index) {
+            //TODO: return function with args index:=??   need to handle arrays for TabSection like components.
+        }
     }
 }
 

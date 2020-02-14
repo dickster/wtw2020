@@ -3,8 +3,8 @@
     "shortForm": "CI",
     "icon": "person",
     "label": "Client Info",
-    "bind": "client.info",
-    "ui": {
+    "bind": "client",
+    "config": {
       "rows": [
         {
           "widgets": [
@@ -12,6 +12,15 @@
               "label": "Name",
               "type": "TextField",
               "bind": "name"
+            }
+          ]
+        },
+        {
+          "widgets": [
+            {
+              "label": "Name",
+              "type": "Section",
+              "bind": "address"
             }
           ]
         }

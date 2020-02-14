@@ -2,13 +2,12 @@
     <v-container fluid style="background: mistyrose;">
         PAGE:{{page}}  ITEM:{{item}}
 
-        config:{{config.label}}
+        config:{{currentPage.label}}
         <!--implicitly leaving :parent out at top level which means use vuex::/app/data -->
         <!--ToDO: add injected accessor as prop.
         e.g. :accessor=VUEXPathifyAccessor.withRoot('data/root')-->
         <dynamic-form
-                :config="config.ui"
-                :parent="config.bind">
+                :page="currentPage">
         </dynamic-form>
     </v-container>
 </template>
@@ -27,11 +26,11 @@
         },
 
         data: () => ({
-            config:null,
+            currentPage:null,
         }),
 
         created() {
-            this.config=this.pages[this.page]
+            this.currentPage=this.pages[this.page]
             // assert config exists...if not jump to error page.  OR commit to VUEX exception. and app will have a
             // dialog/overlay to show msg.
             // set('app/exception', {msg: 'cant do this or that', cause:[], })
