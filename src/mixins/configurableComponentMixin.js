@@ -15,9 +15,11 @@ export default {
     computed: {
         value: {
             get() {
+                console.log(JSON.stringify(this.config) + ' ' + this.path)
                 return this.accessorService.get(this.path)
             },
             set(v) {
+                console.log(JSON.stringify(this.config) + ' ' + this.path)
                 return this.accessorService.set(this.path, v)
             }
         },

@@ -53,14 +53,14 @@
 
 
 <script>
-    import DynamicForm from './DynamicForm';
+    import Form from './Form'
 
     export default {
         name: 'simple-section',
         props: [
             'config', 'parent'
         ],
-        components: {DynamicForm},
+        components: {Form},
 
         data: () => ({
 

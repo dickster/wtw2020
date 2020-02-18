@@ -1,6 +1,5 @@
 <template>
 
-    <v-slide-y-transition>
 
         <!--TODO : add optional/configurable error component here.
             will display component OR $emit invalid event.
@@ -8,14 +7,15 @@
             style this component so it's hidden if not error.
         -->
 
-        <!--add css to hide this when no errors..maybe change this to closeable alert widget??
-        but make sure it lives within the form validation framework.-->
-        <v-text-field :rules="rules">
-        </v-text-field>
-
         <div>
-            <v-row :wrap="!config.noWrapRow"
-                   no-gutters
+            <!--add css to hide this when no errors..maybe change this to closeable alert widget??
+            but make sure it lives within the form validation framework.-->
+            <v-text-field label="valid" :rules="rules">
+            </v-text-field>
+
+
+
+            <v-row no-gutters
                    v-for="(row,r) in config.rows"
                    :key="r">
 
@@ -26,24 +26,17 @@
                 does this if there if row-wrap is set.
                 -->
 
-                <template v-for="(widget,c) in row.widgets">
+                <template v-for="(widget,c) in row">
+
+                        parent path:{{path}}
                     <transition :name="config.rowTransition||'slide-y-transition'">
 
-                        <!--TODO : make all widgets emit input event. this is captured by parent form.-->
-                        <!--instead of having them tightly bound to VUEX. -->
-                        <!--need to pass value and listen for events -->
-                        <!--config.path.push(parent) -->
-                        <!--how to deal with array index?? -->
 
-                        <!--instead of :parent="item" in tabs, need to set parent to parent+'[index]'-->
-
-                        <!--[...parent,widget.bind]-->
-                        <component
-                                :is="componentType"
+                        <configurable-component
                                 :parent="path"
-                                :config="config"
+                                :config="widget"
                         >
-                        </component>
+                        </configurable-component>
 
                     </transition>
 
@@ -52,15 +45,15 @@
 
         </div>
 
-    </v-slide-y-transition>
 
 </template>
 
 <script>
     import ConfigurableComponentMixin from '../../mixins/configurableComponentMixin'
+    import ConfigurableComponent from "../ConfigurableComponent";
 
     export default {
-        props: ['config', 'bind'],
+        components: {ConfigurableComponent},
         mixins: [ConfigurableComponentMixin],
 
         data() {

@@ -8,22 +8,15 @@
 
         <component
                 :is="componentType"
-                :value="value"
+                :parent="parent"
                 :config="config"
-                @input="emitInput($event)"
         >
         </component>
-
-
-
 
     </v-col>
 
 </template>
 
-
-// say component is SEction.. its emitting event up that already has a path.
-// .: always need to consider the
 
 
 <script>

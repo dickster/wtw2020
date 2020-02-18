@@ -22,12 +22,12 @@
 <script>
 
     import ConfigurableComponent from '../../mixins/configurableComponentMixin';
-    import DynamicForm from "./DynamicForm"
+    import Form from "./Form"
 
     export default {
         mixins : [ConfigurableComponent],
         name: "Sheet",
-        components: {DynamicForm},
+        components: {Form},
 
         data: () => ({}),
 

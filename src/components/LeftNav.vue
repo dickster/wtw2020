@@ -40,7 +40,7 @@
 
         methods: {
             isVisible() {
-                return true //this.$slots.default
+                return this.$slots.default
             }
         },
 

@@ -8,25 +8,25 @@
     "bind": "client",
     "nowrap": false,
     "rows": [
-      {
-        "widgets": [
+
+        [
           {
             "label": "Name",
             "type": "TextField",
-            "bind": "name"
+            "bind": "name",
+
+            "width":12
           }
-        ]
-      },
-      {
-        "widgets": [
+        ],
+        [
           {
-            "label": "Name",
-            "type": "Section",
-            "bind": "address"
+            "label": "City",
+            "type": "TextField",
+            "width":12,
+            "bind": "city"
           }
         ]
-      }
-    ]
+      ]
   },
   "fleet": {
     "shortForm": "F",

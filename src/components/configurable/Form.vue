@@ -5,21 +5,22 @@
 
         <v-text-field v-model="valid" label="wtf"></v-text-field>
         {{JSON.stringify(stuff)}}
-        <div v-if="form.config">
+            section here...
+        <div v-if="form">
 
             <!--e.g.
                 <component :is="Section" :bind="info" :config="{rows:[...]}"> </component>
             -->
             <component
-                    :is="'Section'"
-                    :config="form.config"
+                    :is="section"
+                    :config="form"
             >
             </component>
 
         </div>
 
         <template v-else>
-            (no configuration given for questions in '{{form}})
+            <p>(no configuration given for questions in '{{form}})</p>
         </template>
     </v-form>
 
@@ -28,6 +29,7 @@
 <script>
 
     import {get,set,sync} from 'vuex-pathify'
+    import Section from './Section'
 
     export default {
         name:'config-form',
@@ -39,6 +41,9 @@
         },
 
         computed: {
+            section() {
+                return Section
+            },
             stuff: get('data/root'),
             valid : sync('app/theme')
         },

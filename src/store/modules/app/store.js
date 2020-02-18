@@ -1,5 +1,5 @@
 import pages from './pages'
-import { make } from "vuex-pathify";
+import { make } from "vuex-pathify"
 
 const state = {
         theme:'default-theme',
@@ -24,10 +24,9 @@ const state = {
         }
 
         // footer, icons@bottom, header, error, dialogs, etc...
-
 };
 
-const mutations = make.mutations(state);
+const mutations = make.mutations(state)
 
 
 const app = {

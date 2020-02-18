@@ -1,6 +1,9 @@
 <template>
 
     <div>
+
+        <v-textarea :value="JSON.stringify(allData)"></v-textarea>
+
         <v-toolbar>
             <!--make this a toolbar.-->
 
@@ -86,6 +89,8 @@
 
 <script>
 
+    import {get} from 'vuex-pathify'
+
     export default {
         name: "stepper",
         props: ['pages'],
@@ -100,6 +105,7 @@
         },
 
         computed: {
+            allData : get('data/root'),
             oneLine() {
                 return this.pages.length > 5
             },

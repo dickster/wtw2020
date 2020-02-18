@@ -54,15 +54,14 @@ export default new Router({
             path: '/apps/rater',
             props: {
                 header: {title: 'rootview'},
-                default: (route) => ({page:'defaultpage'})
             },
             name: 'Rater',
-            components: {default: BasicApp, header: Header}
+            components: {default: BasicApp, header: Header, nav:Stepper}
         },
 
         {
             path: '/apps/rater/:page',   // e.g.    /apps/rater/locations
-            components: {default: BasicApp},
+            components: {default: BasicApp, nav: Stepper},
             props: {
                 header: {title: 'blargh'},
                 default: (route) => ({page: route.params.page})
