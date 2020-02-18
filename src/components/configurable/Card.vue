@@ -1,38 +1,41 @@
 <template>
 
-    <div>
-        <v-card :elevation="config.elevation||''">
-            <v-card-title v-if="config.label">
-                {{config.label}}
-            </v-card-title>
-            <v-card-text>
-                <configurable-questions
-                        :parent="parent"
-                        :config="config">
-                </configurable-questions>
-            </v-card-text>
-            <v-card-actions v-if="config.actions">
+    <v-card>
+        <v-card-title v-if="config.label">{{config.label}}</v-card-title>
+        <v-card-text>
+            <configurable-component-container
+                    :config="config.config"
+                    :parent="[...(config.bind||[]),...(parent||[])]"
+            >
 
-            </v-card-actions>
-        </v-card>
-    </div>
+            </configurable-component-container>
+        </v-card-text>
+        <v-card-actions>
+        </v-card-actions>
+    </v-card>
 
 </template>
 
+
 <script>
 
-    import ConfigurableComponent from '../../mixins/configurableComponentMixin';
-    import DynamicForm from "../DynamicForm"
 
+    import ConfigurableComponentContainer from "../ConfigurableComponentContainer";
     export default {
-        mixins : [ConfigurableComponent],
-        name: "Card",
-        components: {DynamicForm},
+        props: [
+            'config','parent'
+        ],
+        components: {ConfigurableComponentContainer},
 
-        data: () => ({}),
+        data: () => ({
+
+        }),
 
         computed: {
 
+        },
+
+        created() {
         },
 
         methods: {
@@ -42,7 +45,9 @@
     }
 </script>
 
+
 <style scoped>
+
 
 
 </style>

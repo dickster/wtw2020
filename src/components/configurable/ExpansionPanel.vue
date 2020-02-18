@@ -53,7 +53,7 @@
 
 
 <script>
-    import DynamicForm from '../DynamicForm';
+    import DynamicForm from './DynamicForm';
 
     export default {
         name: 'simple-section',

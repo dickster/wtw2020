@@ -6,20 +6,20 @@
             </v-col>
             <h2>{{title}}</h2>
 
-            <dynamic-form
+            <config-form
                     :config="config"
             >
-            </dynamic-form>
+            </config-form>
         </v-row>
     </v-container>
 </template>
 
 
 <script>
-    import DynamicForm from "../components/DynamicForm"
+    import Form from "../components/configurable/Form"
 
     export default {
-        components: {DynamicForm},
+        components: {Form},
         props: ['title'],
         inject: ['policyRepository'],
         name: 'HelloWorld',

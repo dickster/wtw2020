@@ -4,6 +4,9 @@ import { make } from "vuex-pathify"
 // use to hold the data.  (policy/quote for example) or whatever document you're reading in and working on.
 const state = {
     root: {
+        client: {
+            name:'Derek'
+        },
         foo: 'hello',
         bar: 'goodbye'
     }

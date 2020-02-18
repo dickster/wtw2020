@@ -1,11 +1,10 @@
 
-import {get, set} from 'vuex-pathify';
-import evaluationService from "../services/evaluationService";
+import {get, set} from 'vuex-pathify'
 
 
 export default {
-    props: ['config', 'value'],
-    inject:['evaluationService'],
+    props: ['config', 'parent'],
+    inject:['evaluationService', 'accessorService'],
     components: {},
 
     data: function() {
@@ -14,7 +13,22 @@ export default {
     },
 
     computed: {
-
+        value: {
+            get() {
+                return this.accessorService.get(this.path)
+            },
+            set(v) {
+                return this.accessorService.set(this.path, v)
+            }
+        },
+        componentType() {
+            let type=this.config.type
+            return () => import(`../components/configurable/${type}.vue`);
+        },
+        path() {
+            // take into account current parent and add our own binding at the end...
+            return [this.parent||[], this.config.bind||[]].flat()
+        },
         rules() {
             return this.config.validation ? [
                 this.evaluationService.ruleFor(this.config.validation, this.exprContext)] : []
@@ -41,21 +55,6 @@ export default {
     created() {
     },
 
-    /* section: client
-            section: info
-                section: address:1
-                    widget: city
-
-
-sections have NO parent, just bind.
-only top level form has parent...but really, that's just bind.
-
-    textfield =>input.native
-    ConfComp::TextField =>wtw-input {'Toronto', ['city']}                   [...path, bind]
-    ConfSection::Address => wtw-input {'Toronto', ['address','1','city]     [bind,{index},...path]                  path='city'
-    ConfSection::INFO => wtw-input {'Toronto', ['info','address','city]     [bind, ...path]                         path=address,1,city
-    ConfSection::CLient => wtw-input {'Toronto', ['client','address','city] [bind, ...path]                         path=info,address,1,city
-     */
     methods: {
         emitInput($event) {
             this.$emit('wtw-input', {value:$event, path:[this.config.bind]})

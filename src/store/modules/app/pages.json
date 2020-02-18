@@ -2,30 +2,31 @@
   "clientInfo": {
     "shortForm": "CI",
     "icon": "person",
+    "type": "Section",
     "label": "Client Info",
+    "validation": [],
     "bind": "client",
-    "config": {
-      "rows": [
-        {
-          "widgets": [
-            {
-              "label": "Name",
-              "type": "TextField",
-              "bind": "name"
-            }
-          ]
-        },
-        {
-          "widgets": [
-            {
-              "label": "Name",
-              "type": "Section",
-              "bind": "address"
-            }
-          ]
-        }
-      ]
-    }
+    "nowrap": false,
+    "rows": [
+      {
+        "widgets": [
+          {
+            "label": "Name",
+            "type": "TextField",
+            "bind": "name"
+          }
+        ]
+      },
+      {
+        "widgets": [
+          {
+            "label": "Name",
+            "type": "Section",
+            "bind": "address"
+          }
+        ]
+      }
+    ]
   },
   "fleet": {
     "shortForm": "F",

@@ -3,22 +3,20 @@
         PAGE:{{page}}  ITEM:{{item}}
 
         config:{{currentPage.label}}
-        <!--implicitly leaving :parent out at top level which means use vuex::/app/data -->
-        <!--ToDO: add injected accessor as prop.
-        e.g. :accessor=VUEXPathifyAccessor.withRoot('data/root')-->
-        <dynamic-form
-                :page="currentPage">
-        </dynamic-form>
+
+        <config-form
+                :form="currentPage">
+        </config-form>
     </v-container>
 </template>
 
 <script>
 
-    import DynamicForm from "../components/DynamicForm"
+    import ConfigForm from "../components/configurable/Form"
     import {get,set,sync} from 'vuex-pathify'
 
     export default {
-        components: {DynamicForm},
+        components: {ConfigForm},
         props: ['page', 'item'],
 
         computed: {
@@ -30,6 +28,7 @@
         }),
 
         created() {
+            // should put this in VUEX??? nah, it's in the URL...
             this.currentPage=this.pages[this.page]
             // assert config exists...if not jump to error page.  OR commit to VUEX exception. and app will have a
             // dialog/overlay to show msg.

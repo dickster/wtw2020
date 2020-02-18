@@ -17,8 +17,7 @@
             <v-text-field
                     hide-details="auto"
                     :rules="rules"
-                    :value="value"
-                    @input="$emit('input',$event)"
+                    v-model="value"
                     >
             </v-text-field>
         </v-col>

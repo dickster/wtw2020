@@ -13,6 +13,9 @@
                          :mini-variant-width="drawer.miniWidth"
     >
 
+
+        {{$store.get('app/theme')}}
+        <v-checkbox v-model="mini" label="mini??"></v-checkbox>
         <!--TODO : handle events, close, mini, max, open -->
         <slot @close="visible=false"
               @mini="mini=true"
@@ -33,13 +36,11 @@
             mini: sync('app/drawer@mini'),
             visible: sync('app/drawer@visible'),
             // TODO : need to add maximize functionality...
-
         },
 
         methods: {
             isVisible() {
-                console.log('isvisible ' + this.visible)
-                return this.$slots.default
+                return true //this.$slots.default
             }
         },
 

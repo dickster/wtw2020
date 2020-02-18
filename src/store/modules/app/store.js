@@ -1,16 +1,13 @@
-import Vue from 'vue'
-
-// TODO : later on this will be read from DB.
 import pages from './pages'
+import { make } from "vuex-pathify";
 
-const app = {
-    namespaced: true,
-    currentPage: null,
-    state: {
+const state = {
         theme:'default-theme',
 
         /* stores app wide validation results */
-        validation: null,
+        validation: {
+            form:true
+        },
 
         bar: {
             clippedLeft:true
@@ -26,8 +23,17 @@ const app = {
             width: 300
         }
 
-        // footer, header, error, dialogs, etc...
-    }
+        // footer, icons@bottom, header, error, dialogs, etc...
+
+};
+
+const mutations = make.mutations(state);
+
+
+const app = {
+    namespaced: true,
+    state,
+    mutations
 }
 
 export default app

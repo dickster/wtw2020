@@ -22,7 +22,7 @@
 <script>
 
     import ConfigurableComponent from '../../mixins/configurableComponentMixin';
-    import DynamicForm from "../DynamicForm"
+    import DynamicForm from "./DynamicForm"
 
     export default {
         mixins : [ConfigurableComponent],

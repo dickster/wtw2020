@@ -24,13 +24,13 @@
 
                     <!--instead of :parent="item" in tabs, need to set parent to parent+'[index]'-->
 
-                    <configurable-component
-                            v-on="listeners"
-                            v-bind="config.attrs"
-                            :value="valueFor(widget)"
-                            :ref="c.ref"
-                            :config="widget">
-                    </configurable-component>
+                    <component
+                            :is="componentType"
+                            :value="value"
+                            :config="config"
+                            @input="emitInput($event)"
+                    >
+                    </component>
 
                 </transition>
 
@@ -56,14 +56,18 @@
 
         methods: {
 
+            reemitInput($event) {
+                // just rethrow it as is.  only forms (top level) & section containers need to augment event.path with their bindings.
+                this.$emit('wtw-input', $event)
+            },
+
+
             // TODO : maybe inject accessor. can be VUE based or whatever else...
             // accessor does value, handleInput, emit.  that way this component is not tied to VUEX.
 
             valueFor(widget) {
                 this.$store.get('data/root@' + widget.bind)
             },
-            // ToDO : handle parent path - ['policy', 'locations', '[0]')
-            // path.join('.').replace('.[','[')
 
             handleInput($event) {
                 let path = [this.parent || [], $event.path || []].flat()
@@ -78,7 +82,7 @@
             listeners() {
                 return {
                     ...this.config.listeners,
-                    'wtw-input': this.emitInput,
+                    'wtw-input': this.reemitInput,
                 }
             },
 
