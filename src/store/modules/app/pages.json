@@ -2,11 +2,8 @@
   "clientInfo": {
     "shortForm": "CI",
     "icon": "person",
-    "type": "Section",
-    "label": "Client Info",
     "validation": [],
     "bind": "",
-    "nowrap": false,
     "layout": [
         [
           {
@@ -30,6 +27,12 @@
                 }
               ]
             ]
+          },
+          {
+            "label": "Are you under 18?",
+            "type": "Checkbox",
+            "bind": "under18",
+            "width":12
           },
           {
             "label": "Name",

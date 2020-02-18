@@ -10,6 +10,8 @@
         <!--TODO : use $listeners & $attrs on underlying components. instead of hard coding @input= etc...-->
         <v-col :cols="!config.label?12:12-(config.labelWidth||8)" style="padding-right:0;">
             <v-text-field
+                    v-on="$listeners"
+                    :bind="$attrs"
                     hide-details="auto"
                     :rules="rules"
                     v-model="value"

@@ -1,60 +1,43 @@
 <template>
 
+    <!--TODO : add other props like elevation, colour, avatar etc...-->
 
-        <!--TODO : add optional/configurable error component here.
-            will display component OR $emit invalid event.
-            validations at this level should have target fields (>0) that should have their error set.
-            style this component so it's hidden if not error.
-        -->
+    <v-card>
 
-        <div>
-            <!--add css to hide this when no errors..maybe change this to closeable alert widget??
-            but make sure it lives within the form validation framework.-->
-            <v-text-field label="valid" :rules="rules">
-            </v-text-field>
+        <v-card-title v-if="config.title">
+            {{title}}
+        </v-card-title>
 
+        <v-card-text>
+            <slot name="errors">
+                <v-text-field class="wtw-errors" label="valid" :rules="rules">
+                </v-text-field>
+            </slot>
 
+            <configurable-component-container
+                :parent="parent"
+                :layout="config.layout"
+                >
+            </configurable-component-container>
 
-            <v-row no-gutters
-                   v-for="(row,r) in config.rows"
-                   :key="r">
+        </v-card-text>
 
-                <!--TODO : i should make this component automatically put columns in rows based on 12 column rule.
-                i.e. user could just add widgets: (a:3, b:4, c:3, d:5) and it would lay them out
-                [ a,b,c ]
-                [ d ]
-                does this if there if row-wrap is set.
-                -->
+        <v-card-actions v-if="config.actions">
+            <!--iterate over action buttons here...-->
+        </v-card-actions>
 
-                <template v-for="(widget,c) in row">
-
-                        parent path:{{path}}
-                    <transition :name="config.rowTransition||'slide-y-transition'">
-
-
-                        <configurable-component
-                                :parent="path"
-                                :config="widget"
-                        >
-                        </configurable-component>
-
-                    </transition>
-
-                </template>
-            </v-row>
-
-        </div>
-
+    </v-card>
 
 </template>
 
 <script>
     import ConfigurableComponentMixin from '../../mixins/configurableComponentMixin'
-    import ConfigurableComponent from "../ConfigurableComponent";
+    import ConfigurableComponentContainer from '../ConfigurableComponentContainer'
 
     export default {
-        components: {ConfigurableComponent},
+        components: {ConfigurableComponentContainer},
         mixins: [ConfigurableComponentMixin],
+        props:['config','actions'],
 
         data() {
             return {}

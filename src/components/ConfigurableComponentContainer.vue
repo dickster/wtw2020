@@ -2,7 +2,8 @@
 
     <transition-group  name="transition||'slide-y-transition'" tag="ul">
 
-            <v-row no-gutters
+            <v-row wrap
+                   no-gutters
                    v-for="(row,r) in layout"
                    :key="r">
 

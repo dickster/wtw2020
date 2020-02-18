@@ -1,21 +1,10 @@
 <template>
 
-    <div>
-
-
-
-            <v-checkbox
-                    @change="emit($event)"
-                    color="primary"
-                    :label="config.label"
-                    v-model="value"
-
-                    hide-details>
-            </v-checkbox>
-
-
-
-    </div>
+    <v-checkbox
+            :label="config.label"
+            v-model="value"
+            hide-details>
+    </v-checkbox>
 
 </template>
 
@@ -25,7 +14,6 @@
 
     export default {
         mixins: [ConfigurableComponent],
-        name: "Label",
         components: {},
 
         data: () => ({}),
