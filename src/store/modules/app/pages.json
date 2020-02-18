@@ -5,25 +5,38 @@
     "type": "Section",
     "label": "Client Info",
     "validation": [],
-    "bind": "client",
+    "bind": "",
     "nowrap": false,
-    "rows": [
-
+    "layout": [
         [
+          {
+            "type": "TabbedSection",
+            "bind": "locations",
+            "layout": [
+              [
+                {
+                  "label": "City",
+                  "type": "TextField",
+                  "bind": "city",
+                  "width": 12
+                }
+              ],
+              [
+                {
+                  "label": "Country",
+                  "type": "TextField",
+                  "width": 12,
+                  "bind": "country"
+                }
+              ]
+            ]
+          },
           {
             "label": "Name",
             "type": "TextField",
             "bind": "name",
 
             "width":12
-          }
-        ],
-        [
-          {
-            "label": "City",
-            "type": "TextField",
-            "width":12,
-            "bind": "city"
           }
         ]
       ]

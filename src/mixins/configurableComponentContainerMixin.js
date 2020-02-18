@@ -20,9 +20,7 @@ export default {
     },
 
     methods: {
-        emitIndexedInput($event, index) {
-            //TODO: return function with args index:=??   need to handle arrays for TabSection like components.
-        }
+
     }
 }
 

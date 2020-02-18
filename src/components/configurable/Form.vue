@@ -8,14 +8,10 @@
             section here...
         <div v-if="form">
 
-            <!--e.g.
-                <component :is="Section" :bind="info" :config="{rows:[...]}"> </component>
-            -->
-            <component
-                    :is="section"
-                    :config="form"
+            <configurable-component-container
+                    :layout="form.layout"
             >
-            </component>
+            </configurable-component-container>
 
         </div>
 
@@ -29,11 +25,11 @@
 <script>
 
     import {get,set,sync} from 'vuex-pathify'
-    import Section from './Section'
+    import ConfigurableComponentContainer from '../ConfigurableComponentContainer'
 
     export default {
         name:'config-form',
-        components: {},
+        components: {ConfigurableComponentContainer},
         inject: ['evaluationService','accessorService'],
         props: ['form'],
 
@@ -41,9 +37,6 @@
         },
 
         computed: {
-            section() {
-                return Section
-            },
             stuff: get('data/root'),
             valid : sync('app/theme')
         },

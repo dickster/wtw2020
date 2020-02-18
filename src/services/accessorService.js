@@ -20,11 +20,12 @@ export default {
     },
 
     asPathify(path) {
-        // path can be array or string...
-        if ( Array.isArray(path) ) {
-            return path.join('.')
-        }
-        return path
+        // path can be array or string or number...
+        // if number, then treat is as an index.
+        // e.g. ['client', 'address', 3, 'city'] ==>    client.address[3].city
+        path=[path].flat(2)
+        return path.reduce((a,c)=>
+            typeof c == 'number' ? a+'['+c+']' : a+'.'+c, '')
     }
 
 }

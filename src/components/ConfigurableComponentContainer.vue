@@ -1,92 +1,52 @@
 <template>
 
-    <div>
-        <v-row :wrap="!config.noWrapRow"
-               no-gutters
-               v-for="(row,r) in config.rows"
-               :key="r">
+    <transition-group  name="transition||'slide-y-transition'" tag="ul">
 
-            <!--TODO : i should make this component automatically put columns in rows based on 12 column rule.
-            i.e. user could just add widgets: (a:3, b:4, c:3, d:5) and it would lay them out
-            [ a,b,c ]
-            [ d ]
-            does this if there if row-wrap is set.
-            -->
+            <v-row no-gutters
+                   v-for="(row,r) in layout"
+                   :key="r">
 
-            <template v-for="(widget,c) in row.widgets">
-                <transition :name="config.rowTransition||'slide-y-transition'">
+                <!--TODO : i should make this component automatically put columns in rows based on 12 column rule.
+                i.e. user could just add widgets: (a:3, b:4, c:3, d:5) and it would lay them out
+                [ a,b,c ]
+                [ d ]
+                does this if there if row-wrap is set.
+                -->
 
-                    <!--TODO : make all widgets emit input event. this is captured by parent form.-->
-                    <!--instead of having them tightly bound to VUEX. -->
-                    <!--need to pass value and listen for events -->
-                    <!--config.path.push(parent) -->
-                    <!--how to deal with array index?? -->
+                <template v-for="(widget,c) in row">
 
-                    <!--instead of :parent="item" in tabs, need to set parent to parent+'[index]'-->
+                    <transition :name="transition||'slide-x-transition'">
 
-                    <component
-                            :is="componentType"
-                            :value="value"
-                            :config="config"
-                            @input="emitInput($event)"
-                    >
-                    </component>
+                        <configurable-component
+                                :parent="parent"
+                                :config="widget"
+                        >
+                        </configurable-component>
 
-                </transition>
+                    </transition>
 
-            </template>
-        </v-row>
+                </template>
+            </v-row>
 
-    </div>
+        </transition-group>
+
 </template>
 
 
 <script>
 
-
     import ConfigurableComponent from './ConfigurableComponent'
     import configurableComponentContainerMixin from '../mixins/configurableComponentContainerMixin'
 
-
     export default {
-        mixins: [configurableComponentContainerMixin],
         components: {ConfigurableComponent},
-        inject: ['evaluationService'],  //accessorService
-        props: ['config', 'parent'],
+        // TODO : add other layout props here like 'transition'...don't put them in layout array.
+        // for example, if you wanted a 10 column layout, add a new prop 'cols10'.
+        props: ['parent', 'layout', 'transition'],
 
-        methods: {
-
-            reemitInput($event) {
-                // just rethrow it as is.  only forms (top level) & section containers need to augment event.path with their bindings.
-                this.$emit('wtw-input', $event)
-            },
-
-
-            // TODO : maybe inject accessor. can be VUE based or whatever else...
-            // accessor does value, handleInput, emit.  that way this component is not tied to VUEX.
-
-            valueFor(widget) {
-                this.$store.get('data/root@' + widget.bind)
-            },
-
-            handleInput($event) {
-                let path = [this.parent || [], $event.path || []].flat()
-                console.log('setting ' + path)
-                this.$store.set('data/root@' + path.join('.'), $event.value)
-            },
-
-
-        }
+        methods: {}
         ,
-        computed: {
-            listeners() {
-                return {
-                    ...this.config.listeners,
-                    'wtw-input': this.reemitInput,
-                }
-            },
-
-        }
+        computed: {}
         ,
 
         mounted() {
