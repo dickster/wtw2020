@@ -2,7 +2,7 @@
   "clientInfo": {
     "shortForm": "CI",
     "icon": "person",
-    "validation": [],
+    "validation": ["$.locations[0].number<10"],
     "bind": "",
     "layout": [
         [
@@ -12,8 +12,21 @@
             "layout": [
               [
                 {
+                  "label": "Size",
+                  "type": "Number",
+                  "bind": "size",
+                  "width": 12
+                },
+                {
+                  "label": "#",
+                  "type": "Number",
+                  "bind": "number",
+                  "width": 12
+                },
+                {
                   "label": "City",
                   "type": "TextField",
+                  "validation": "it.length>3",
                   "bind": "city",
                   "width": 12
                 }

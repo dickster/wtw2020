@@ -1,5 +1,9 @@
 <template>
 
+    <!--blargh. this doesn't work!  something to do with missing material icons??
+        doesn't respond to click events.
+    -->
+
     <v-checkbox
             :label="config.label"
             v-model="value"
@@ -10,7 +14,7 @@
 
 <script>
 
-    import ConfigurableComponent from '../../mixins/configurableComponentMixin';
+    import ConfigurableComponent from '../../mixins/configurableComponentMixin'
 
     export default {
         mixins: [ConfigurableComponent],

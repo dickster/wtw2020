@@ -5,6 +5,9 @@ const state = {
         theme:'default-theme',
 
         /* stores app wide validation results */
+    // should maybe create room for named validations.
+    // i.e. if a form had id="form37", there would be app/validation@form37: true.
+    //
         validation: {
             form:true
         },

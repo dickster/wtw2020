@@ -3,6 +3,7 @@
     <div>
 
         <v-textarea :value="JSON.stringify(allData)"></v-textarea>
+        <v-textarea :value="JSON.stringify(validation)"></v-textarea>
 
         <v-toolbar>
             <!--make this a toolbar.-->
@@ -105,6 +106,7 @@
         },
 
         computed: {
+            validation: get('app/validation'),
             allData : get('data/root'),
             oneLine() {
                 return this.pages.length > 5

@@ -46,7 +46,6 @@
         ,
 
         created() {
-            console.log('creating text field ' + JSON.stringify(this.config) + '::' + this.parent)
         }
         ,
 

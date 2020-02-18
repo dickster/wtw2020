@@ -1,6 +1,8 @@
 
 // evaluation service....keep this file uncouple from any Vue objects.  it must
 //  be able to run on server side too.
+import store from "../store/store";
+
 export default {
 
     // TODO : what if the validations need access to lists.  we have to be able to synchronize.  somehow return a promise
@@ -23,6 +25,58 @@ export default {
         max: (...v) => [...v].reduce((a,b)=>Math.max(a,b),0)
     },
 
+    getContext(value) {
+        // get default context which contains useful macros from VUEX (it is set there at load time).
+
+        // note that this SHOULD NOT be a computed property because it will not be called every time you do an evaluation.
+        //   which is wrong, because it can involve expressions that outside of reactivity and MUST be called.
+        //   e.g.   $now : "new Date()"     <--must be called at time of expression evaluation!!
+
+        // in order to add new macro variable, you need to update module on client and server...hmmmm.
+        //   if the definition is simple javascript then they can be expressions?
+        //  config.customVars = {
+        //    $today:"new Date()"
+        //    $exchangeRate:"343",
+        //    $broker: { client: 'bob' }
+        //    $mediaType: { client: 'small' }
+        //   }
+        //   @@it's possible that some validations should only be done on the client side.
+
+// TODO : read this from VUEX.  hard coded here now as POC
+//    let immutableContextFromSettings = get('settings/evalContext')...
+        let immutableContextFromSettings = {
+            $today: "new Date()",
+            // $day:
+            // $ms:
+            // $year:
+            // $month:
+            // $nextBusinessDay:
+            $me: "context.user.name",
+        }
+
+        // add pretty much everything in state store to context.
+        // this makes it possible to have validation expressions like...
+        //    context.user=="Joe" && settings.ignoreErrors==true
+        //  the key point being they reference "context" and "settings" modules in their expression.
+        // also define '$' which is root of all data.
+        let context = {...immutableContextFromSettings, '$': "data.root"}
+
+        let modules = store.getters.modules
+
+        let that = this
+        context = Object.keys(context)
+            .reduce((a, k) => {
+                a[k] = that.evaluate(context[k], modules)
+                return a
+            }, {})
+
+        // after evaluating modules and predefined
+        context['config'] = this.config
+        context.it = value
+        // i'm going to want to add parent here...
+        // context['parent'] = store.get('data/root@'+parent.join('.'))
+        return context
+    },
 
     // note the difference between "validating" and simply evaluating and expression.
     // a validation is an expression, that if it evaluates to false, is treated as an error and returns a error object.
@@ -45,9 +99,10 @@ export default {
         }
     },
 
-    ruleFor(validation, contextFactory=()=>{}) {
+    ruleFor(validation, contextFactory=this.getContext) {
+        let that = this
         return (v) => {
-            let context = contextFactory(v)
+            let context = contextFactory.apply(that,[v])
             let result = this.validate(validation, context)
             return result.length>0 ?
                 result.map(v=>v.msg||v.code||v.validation).join('  ') :

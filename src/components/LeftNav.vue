@@ -14,8 +14,6 @@
     >
 
 
-        {{$store.get('app/theme')}}
-        <v-checkbox v-model="mini" label="mini??"></v-checkbox>
         <!--TODO : handle events, close, mini, max, open -->
         <slot @close="visible=false"
               @mini="mini=true"

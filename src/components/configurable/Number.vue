@@ -1,79 +1,54 @@
 <template>
 
-    <div>
+    <span class="textfield-container">
 
-
-         <span class="textfield-container">
-        <v-col :cols="config.labelWidth||8" class="textfield-label">
+        <!--TODO : allow for label to be in text field or beside.-->
+        <v-col v-if="config.label" :cols="config.labelWidth||8" class="textfield-label">
             {{config.label}}
-            <v-tooltip right :max-width="400" v-if="config.warning">
+        </v-col>
 
-                <template v-slot:activator="{ on }">
-                    <v-icon
-                            dark
-                            color="info"
-                            v-on="on">
-                        help
-                    </v-icon>
-                </template>
-                    <span>
-                        <span v-if="config.warning.tooltip"
-                              class="component-warning"
-                              v-html="config.warning.tooltip">
-                        </span>
-                    </span>
-                </v-tooltip>
-            </v-col>
-
-            <v-col :cols="12-(config.labelWidth||8)" style="padding-right:0;">
-
-
-                  <div data-v-3f14b256="" class="v-input v-input--hide-details  theme--light v-text-field v-text-field--is-booted">
-                    <div class="v-input__control">
-                        <div class="v-input__slot">
-                            <div class="v-text-field__slot">
-                                <!--TODO: all of these container HTML is here to make it look like vuetify text fields.
-                                should wrap this up in a component.
-                                -->
-                                <money v-model="value" v-bind="money"></money>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
+        <!--TODO : use $listeners & $attrs on underlying components. instead of hard coding @input= etc...-->
+        <v-col :cols="!config.label?12:12-(config.labelWidth||8)" style="padding-right:0;">
+            <v-text-field
+                    type="number"
+                    :min="config.min||0"
+                    :max="config.max"
+                    v-on="$listeners"
+                    :bind="$attrs"
+                    hide-details="auto"
+                    :rules="rules"
+                    v-model="value"
+            >
+            </v-text-field>
         </v-col>
     </span>
-
-
-    </div>
 
 </template>
 
 <script>
 
-    import ConfigurableComponent from '../../mixins/configurableComponentMixin';
+    import ConfigurableComponentMixin from '../../mixins/configurableComponentMixin';
+    import {get, set} from 'vuex-pathify';
+
 
     export default {
-        mixins: [ConfigurableComponent],
+        inheritAttrs: false,
+        mixins: [ConfigurableComponentMixin],
         components: {},
 
-
-        data: () => ({
-
-        }),
+        data: () => ({}),
 
         computed: {
-            show() {
-                if (this.config.tooltipExpression) {
-                    // return this.$evaluate(this.config.tooltipExpression)
-                }
-                return true
-            }
-        },
+
+        }
+        ,
 
         created() {
-        },
-        methods: {}
+        }
+        ,
+
+        methods: {
+        }
     }
 </script>
 
