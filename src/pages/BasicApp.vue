@@ -4,19 +4,19 @@
 
         config:{{currentPage.label}}
 
-        <config-form
-                :form="currentPage">
-        </config-form>
+        <page
+                :page="currentPage">
+        </page>
     </v-container>
 </template>
 
 <script>
 
-    import ConfigForm from "../components/configurable/Form"
+    import Page from "../components/configurable/Page"
     import {get,set,sync} from 'vuex-pathify'
 
     export default {
-        components: {ConfigForm},
+        components: {Page},
         props: ['page', 'item'],
 
         computed: {

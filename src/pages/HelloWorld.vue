@@ -6,20 +6,20 @@
             </v-col>
             <h2>{{title}}</h2>
 
-            <config-form
+            <page
                     :config="config"
             >
-            </config-form>
+            </page>
         </v-row>
     </v-container>
 </template>
 
 
 <script>
-    import Form from "../components/configurable/Form"
+    import Page from "../components/configurable/Page"
 
     export default {
-        components: {Form},
+        components: {Page},
         props: ['title'],
         inject: ['policyRepository'],
         name: 'HelloWorld',

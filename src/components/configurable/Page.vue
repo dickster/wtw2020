@@ -1,17 +1,15 @@
 <template>
 
     <!--should this be a form or just a container???  I dont think I need a form?/??? -->
-    <v-form v-model="valid" class="configurable-form">
+    <v-form v-model="valid" class="configurable-page">
 
-
-        VALID: {{valid2}}
         <!--<v-text-field v-model="valid" label="valid (debug)"></v-text-field>-->
-        <div v-if="form">
+        <div v-if="page">
             <v-text-field ref="errorContainer" disabled class="wtw-errors" label="valid" v-model="valid" :rules="rules">
             </v-text-field>
 
             <configurable-component-container
-                    :layout="form.layout"
+                    :layout="page.layout"
             >
             </configurable-component-container>
 
@@ -30,22 +28,22 @@
     import ConfigurableComponentContainer from '../ConfigurableComponentContainer'
 
     export default {
-        name: 'config-form',
         components: {ConfigurableComponentContainer},
         inject: ['evaluationService', 'accessorService'],
-        props: ['form'],
+        props: ['page'],
 
         methods: {},
 
         computed: {
-            formId() {
-                return this.form.id
+            pageId() {
+                return this.page.id
             },
             root: get('data/root'),
+            // TODO : put this validation stuff into container mixin.
             valid: sync('app/validation@formX'),
             rules() {
-                return this.form.validation ?
-                    [ this.evaluationService.ruleFor(this.form.validation) ] :
+                return this.page.validation ?
+                    [ this.evaluationService.ruleFor(this.page.validation) ] :
                     []
             }
         },
@@ -72,7 +70,6 @@
         ,
 
         data: () => ({
-            valid2:false
         }),
     }
 </script>

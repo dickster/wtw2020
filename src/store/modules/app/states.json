@@ -1,0 +1,21 @@
+{
+  "clientInfo": {
+
+  },
+  "fleet": {
+    "shortForm": "F",
+    "icon": "person",
+    "label": "Fleet",
+    "bind": "fleet",
+    "ui": {
+      "rows": [
+        {
+          "label": "Vehicle",
+          "type": "TextField",
+          "bind": "vehicle"
+        }
+      ]
+    }
+  }
+}
+
