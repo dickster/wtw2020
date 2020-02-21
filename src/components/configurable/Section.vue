@@ -11,6 +11,7 @@
         <v-card-text>
             <slot name="errors">
                 <v-text-field class="wtw-errors" label="valid" :rules="rules">
+
                 </v-text-field>
             </slot>
 

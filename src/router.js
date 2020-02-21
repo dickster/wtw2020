@@ -75,26 +75,26 @@ export default new Router({
                 default: (route) => ({page: route.params.page, item:route.params.item}),
             },
             components:{default:BasicApp, header:Header},
-        }
+        },
 
-// {
-//     path: '/',
-//     props: {header: {title: 'hello'}},
-//     name: 'helloworld',
-//     components: {default: HelloWorld, header: Header, nav: Stepper}
-// },
-// {
-//     path: '/secret',
-//     props: {header: {title: 'Sssssh'}},
-//     name: 'secret',
-//     components: {default: Secret, header: Header}
-// },
-// {
-//     path: '/foo',
-//     props: {header: {title: 'foo'}},
-//     name: 'foo',
-//     component: FooBar
-// }
+{
+    path: '/',
+    props: {header: {title: 'hello'}},
+    name: 'helloworld',
+    components: {default: HelloWorld, header: Header, nav: Stepper}
+},
+{
+    path: '/secret',
+    props: {header: {title: 'Sssssh'}},
+    name: 'secret',
+    components: {default: Secret, header: Header}
+},
+{
+    path: '/foo',
+    props: {header: {title: 'foo'}},
+    name: 'foo',
+    component: FooBar
+}
 
 
 ]

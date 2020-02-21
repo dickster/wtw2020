@@ -111,13 +111,11 @@ export default {
     },
 
 
-    // keywords
     // keywords : {
     //    required: "!!it"
     //    email: it.match(someRegexp)
     //    phone: it.match(anotherRegexp)
     //    money: it>=0 && less than 2 digits??
-
 
     validate(validation, context) {
         let input = Array.isArray(validation) ? validation : [validation]

@@ -1,6 +1,5 @@
 
-import {get, set} from 'vuex-pathify';
-import evaluationService from "../services/evaluationService";
+import {get, set} from 'vuex-pathify'
 
 
 export default {

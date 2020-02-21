@@ -2,10 +2,21 @@
   "clientInfo": {
     "shortForm": "CI",
     "icon": "person",
-    "validation": ["$.locations[0].number<10"],
+    "enabled": "eval this expr  e.g.   $.covers.includes('BI')",
+    "validation": [
+      "(($.locations[0].number||0) + ($.locations[1].number||0))<10"
+    ],
     "bind": "",
     "layout": [
         [
+          {
+            "type":"Button",
+            "id":"action1",
+            "label":"action button",
+            "action": {
+              "path":"/rater/apps/fleet"
+            }
+          },
           {
             "type": "TabbedSection",
             "bind": "locations",
@@ -62,15 +73,15 @@
     "icon": "person",
     "label": "Fleet",
     "bind": "fleet",
-    "ui": {
-      "rows": [
+    "layout": [
+      [
         {
           "label": "Vehicle",
           "type": "TextField",
           "bind": "vehicle"
         }
       ]
-    }
+    ]
   }
 }
 

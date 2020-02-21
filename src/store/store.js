@@ -12,11 +12,12 @@ import app from './modules/app/store.js'
 import context from './modules/context/store.js'
 import data from './modules/data/store.js'
 import settings from './modules/settings/store.js'
+import workflowAction from './modules/workflowAction/store'
 
 Vue.use(Vuex)
 
 // TODO : change to createModule(app)
-const modules = {app, context, data, settings}
+const m = {app, context, data, settings, workflowAction}
 
 // Note that the store will have serviceContainer injected into it.  so any modules wanting a repo/service can use
 //    serviceContainer.someRepository
@@ -31,18 +32,13 @@ export default new Vuex.Store({
         },
     getters: {
         modules(state) {
-
-
-            return {
-                app:app.state,
-                context:context.state,
-                data:data.state,
-                settings:settings.state
-            //    TODO : add lists...
-            }
+            return Object.keys(m).reduce((a,c)=>{
+                a[c]=m[c].state;
+                return a
+            },{})
         }
     },
-    modules: modules,
+    modules: m,
     plugins: [pathify.plugin]
 })
 

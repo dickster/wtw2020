@@ -4,12 +4,15 @@
             <v-col cols="12">
                 <v-btn large @click="$router.push('/foo')">Go to FOO</v-btn>
             </v-col>
+            <v-col cols="12">
+                <v-btn large @click="$router.push('/apps/rater/fleet')">Go to fleet</v-btn>
+            </v-col>
+            <v-col cols="12">
+                <v-btn large @click="$router.push('/apps/rater/clientInfo')">Go to clientinfo</v-btn>
+            </v-col>
             <h2>{{title}}</h2>
 
-            <page
-                    :config="config"
-            >
-            </page>
+
         </v-row>
     </v-container>
 </template>

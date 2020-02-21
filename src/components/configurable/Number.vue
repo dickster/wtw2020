@@ -17,7 +17,7 @@
                     :bind="$attrs"
                     hide-details="auto"
                     :rules="rules"
-                    v-model="value"
+                    v-model.number="value"
             >
             </v-text-field>
         </v-col>

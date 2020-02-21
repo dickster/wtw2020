@@ -1,6 +1,6 @@
 <template>
 
-    <transition-group  name="transition||'slide-y-transition'" tag="ul">
+    <transition-group  name="transition||'slide-y-transition'" tag="div">
 
             <v-row wrap
                    no-gutters
@@ -12,6 +12,9 @@
                 [ a,b,c ]
                 [ d ]
                 does this if there if row-wrap is set.
+
+                i could do a layout.flat() to reduce all widgets to a single row.  might be easier to deal with layout that way...
+
                 -->
 
                 <template v-for="(widget,c) in row">

@@ -27,7 +27,6 @@
     import ConfigurableComponentMixin from '../../mixins/configurableComponentMixin';
     import {get, set} from 'vuex-pathify';
 
-
     export default {
         inheritAttrs: false,
         mixins: [ConfigurableComponentMixin],

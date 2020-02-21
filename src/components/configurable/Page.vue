@@ -1,6 +1,6 @@
 <template>
 
-    <!--should this be a form or just a container???  I dont think I need a form?/??? -->
+    <!--Page basically wraps a bunch of configurable components in a form.  that way it gives you a place to deal with validation. -->
     <v-form v-model="valid" class="configurable-page">
 
         <!--<v-text-field v-model="valid" label="valid (debug)"></v-text-field>-->
@@ -8,15 +8,18 @@
             <v-text-field ref="errorContainer" disabled class="wtw-errors" label="valid" v-model="valid" :rules="rules">
             </v-text-field>
 
-            <configurable-component-container
-                    :layout="page.layout"
-            >
-            </configurable-component-container>
+            <!--<configurable-component-container-->
+                    <!--:layout="page.layout"-->
+            <!--&gt;-->
+            <!--</configurable-component-container>-->
 
+            <configurable-component-container
+                :layout="page.layout">
+            </configurable-component-container>
         </div>
 
         <template v-else>
-            <p>(no configuration given for questions in '{{form}})</p>
+            <p>(no configuration given for questions in {{page}})</p>
         </template>
     </v-form>
 
@@ -25,7 +28,7 @@
 <script>
 
     import {get, set, sync} from 'vuex-pathify'
-    import ConfigurableComponentContainer from '../ConfigurableComponentContainer'
+    import ConfigurableComponentContainer from "../ConfigurableComponentContainer";
 
     export default {
         components: {ConfigurableComponentContainer},
@@ -40,7 +43,7 @@
             },
             root: get('data/root'),
             // TODO : put this validation stuff into container mixin.
-            valid: sync('app/validation@formX'),
+            valid: sync('app/validation@:pageId'),
             rules() {
                 return this.page.validation ?
                     [ this.evaluationService.ruleFor(this.page.validation) ] :

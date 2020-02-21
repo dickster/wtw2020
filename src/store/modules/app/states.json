@@ -1,6 +1,20 @@
 {
   "clientInfo": {
+    // actionName : {
+    // action can be 'next|prev|first|last' =
+    // { 'next':undefined }
+    // url =
+    // { url: '../foo/bar', params: { x: '$.policy.foo', y: '$broker', z: 'new Date()' }, response: { code: 'retCode', msg: 'value.text' }
+    // method/service..
+    // { method: fooService.doAction, response: { code:... msg:... }}
+    // emit event...  (non-action button.  no state transitions for this)
+    //
+    // { 'bind': 'next',
+    //   end: { path: { 'Locations' }, mode: 'relativePath'(default)   item: response.locId, params: {debug: true} }
+    // }
+    // {  'finish': { url:
 
+    //
   },
   "fleet": {
     "shortForm": "F",

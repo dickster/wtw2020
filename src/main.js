@@ -12,9 +12,11 @@ import VueObserveVisibility from 'vue-observe-visibility'
 import moment from 'moment'
 import VueTheMask from 'vue-the-mask'
 import Vuetify from "vuetify/lib";
+import { sync } from 'vuex-router-sync'
 
 import serviceContainer from './serviceContainer';
 
+const unsync = sync(store, router) // Returns an unsync callback fn should be called when Vue app destroyed.
 
 Vue.config.productionTip = false
 
@@ -65,6 +67,8 @@ function allowAccess(to,from) {
 
 
 router.beforeEach((to, from, next) => {
+    // TODO: I may want to save current route in VUEX???
+    // or use vue-router-sync?
     if (to.name!='no-access' && !allowAccess(to,from)) next(
         {
             name:'no-access',

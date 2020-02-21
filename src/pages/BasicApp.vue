@@ -1,19 +1,16 @@
 <template>
-    <v-container fluid style="background: mistyrose;">
-        PAGE:{{page}}  ITEM:{{item}}
 
-        config:{{currentPage.label}}
-
-        <page
-                :page="currentPage">
-        </page>
-    </v-container>
+    <div>
+    <page
+            :page="currentPage">
+    </page>
+    </div>
 </template>
 
 <script>
 
     import Page from "../components/configurable/Page"
-    import {get,set,sync} from 'vuex-pathify'
+    import {get,set} from 'vuex-pathify'
 
     export default {
         components: {Page},
@@ -28,6 +25,9 @@
         }),
 
         created() {
+
+            console.log(JSON.stringify(this.$route.params))
+            // commit this to VUEX! along with item.
             // should put this in VUEX??? nah, it's in the URL...
             this.currentPage=this.pages[this.page]
             if (!this.currentPage.id) {
@@ -37,6 +37,7 @@
             // assert config exists...if not jump to error page.  OR commit to VUEX exception. and app will have a
             // dialog/overlay to show msg.
             // set('app/exception', {msg: 'cant do this or that', cause:[], })
+
         }
         // look at page,item, app and load config appropriately.
         // for RATER app, need drawer config?
