@@ -8,65 +8,97 @@
     ],
     "bind": "",
     "layout": [
-        [
-          {
-            "type":"Button",
-            "id":"action1",
-            "label":"action button",
-            "action": {
-              "path":"/rater/apps/fleet"
+      [
+        {
+          "type": "Button",
+          "label": "next action",
+          "action": "next"
+        },
+        {
+          "type": "Button",
+          "id": "action2",
+          "label": "axios action",
+          "action": {
+            "type": "get",
+            "url": "jsonplaceholder.typicode.com/todos/1"
+            },
+            "transition": [
+              {
+                "code": 0,
+                "target": {
+                  "path": "/rater/apps/fleet"
+                }
+              },
+              {
+                "code": 1,
+                "target": {
+                  "path": "/rater/apps/clientInfo"
+                }
+              },
+              {
+                "comment": "no code or http is catchall - a default version of this should be defined at global level",
+                "target": {
+                  "path": "/rater/apps/fleet"
+                }
+              }
+            ],
+            "notification" : {
+              "overlay": { "foo": "overlay can contain progress "},
+              "progress": {"comment":"app level progress under title bar"},
+              "event":"alias for snackbar  {msg:'blargh', logMsg:true } ",
+              "dialog":"whatever other temporary notification things exist"
             }
-          },
-          {
-            "type": "TabbedSection",
-            "bind": "locations",
-            "layout": [
-              [
-                {
-                  "label": "Size",
-                  "type": "Number",
-                  "bind": "size",
-                  "width": 12
-                },
-                {
-                  "label": "#",
-                  "type": "Number",
-                  "bind": "number",
-                  "width": 12
-                },
-                {
-                  "label": "City",
-                  "type": "TextField",
-                  "validation": "it.length>3",
-                  "bind": "city",
-                  "width": 12
-                }
-              ],
-              [
-                {
-                  "label": "Country",
-                  "type": "TextField",
-                  "width": 12,
-                  "bind": "country"
-                }
-              ]
-            ]
-          },
-          {
-            "label": "Are you under 18?",
-            "type": "Checkbox",
-            "bind": "under18",
-            "width":12
-          },
-          {
-            "label": "Name",
-            "type": "TextField",
-            "bind": "name",
 
-            "width":12
-          }
-        ]
+        },
+        {
+          "type": "TabbedSection",
+          "bind": "locations",
+          "layout": [
+            [
+              {
+                "label": "Size",
+                "type": "Number",
+                "bind": "size",
+                "width": 12
+              },
+              {
+                "label": "#",
+                "type": "Number",
+                "bind": "number",
+                "width": 12
+              },
+              {
+                "label": "City",
+                "type": "TextField",
+                "validation": "it.length>3",
+                "bind": "city",
+                "width": 12
+              }
+            ],
+            [
+              {
+                "label": "Country",
+                "type": "TextField",
+                "width": 12,
+                "bind": "country"
+              }
+            ]
+          ]
+        },
+        {
+          "label": "Are you under 18?",
+          "type": "Checkbox",
+          "bind": "under18",
+          "width": 12
+        },
+        {
+          "label": "Name",
+          "type": "TextField",
+          "bind": "name",
+          "width": 12
+        }
       ]
+    ]
   },
   "fleet": {
     "shortForm": "F",

@@ -30,9 +30,7 @@
         methods: {
             perform() {
                 if (this.config.action) {
-                    this.$router.push('/apps/rater/fleet')
-
-                    //this.$store.dispatch('workflowAction/perform', this.config.action)
+                    this.$store.dispatch('workflowAction/perform', this.config.action)
                 }
                 // do something with config.action.
                 //  e.g. store.dispatch('action', this.config.action)

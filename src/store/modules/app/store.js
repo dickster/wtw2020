@@ -3,11 +3,14 @@ import {make} from 'vuex-pathify'
 
 const state = {
     theme: 'default-theme',
-    // any workflow actions dispatched will change this value.
-    // main App should watch for changes and $router.push({value})
-    snackbar:null,
-    overlay:null,
-    dialog:null,
+
+    notification: {
+        snackbar: null,
+        overlay: null,
+        dialog: null,
+        progress: null,  // app level progress at bottom of toolbar..
+        spinner: null,
+    },
 
     // add 'back','fwd' actions. need to be able to have access to all router navigation methods.
     //  replace, go(?)
@@ -15,7 +18,7 @@ const state = {
     /* stores app wide validation results */
     // should maybe create room for named validations.
     // i.e. if a form had id="form37", there would be app/validation@form37: true.
-    //
+
     validation: {
         form: true
     },

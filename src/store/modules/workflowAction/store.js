@@ -10,8 +10,8 @@ const mutations = make.mutations(state)
 
 const workflowAction = {
     namespaced: true,
-    state,
-    actions,
+    state: state,
+    actions: actions,
     mutations
 }
 
