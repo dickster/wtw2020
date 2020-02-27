@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import HelloWorld from './pages/HelloWorld'
-import Header from './pages/Header'
 import NoAccess from './pages/NoAccess'
 import FooBar from './pages/FooBar'
 import Stepper from './components/Stepper'
@@ -56,42 +55,37 @@ export default new Router({
                 header: {title: 'rootview'},
             },
             name: 'Rater',
-            components: {default: BasicApp, header: Header, nav:Stepper}
+            components: {default: BasicApp, nav:Stepper}
         },
 
         {
             path: '/apps/rater/:page',   // e.g.    /apps/rater/locations
             components: {default: BasicApp, nav: Stepper},
             props: {
-                header: {title: 'blargh'},
                 default: (route) => ({page: route.params.page})
             }
         },
 
-        {           // e.g.     /apps/rater/locations/23
+        {
             path: '/apps/rater/:page/:item',
             props: {
-                header: {title: 'item listing'},
                 default: (route) => ({page: route.params.page, item:route.params.item}),
             },
-            components:{default:BasicApp, header:Header},
+            components:{default:BasicApp},
         },
 
 {
     path: '/',
-    props: {header: {title: 'hello'}},
     name: 'helloworld',
-    components: {default: HelloWorld, header: Header, nav: Stepper}
+    components: {default: HelloWorld, nav: Stepper}
 },
 {
     path: '/secret',
-    props: {header: {title: 'Sssssh'}},
     name: 'secret',
-    components: {default: Secret, header: Header}
+    components: {default: Secret}
 },
 {
     path: '/foo',
-    props: {header: {title: 'foo'}},
     name: 'foo',
     component: FooBar
 }

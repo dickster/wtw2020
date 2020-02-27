@@ -7,6 +7,8 @@ const actions = {
 
     perform({state, commit, rootState}, action) {
 
+        commit('notification', action.notification)
+
         let workflowAction = new WorkflowAction(action)
 
         let p = workflowAction.perform()
@@ -16,6 +18,7 @@ const actions = {
             }, e=>{
                 // TODO : set error state here..snackbar,logging etc...
             })
+            .finally(()=>commit('resetNotification'))
 
     }
 

@@ -1,5 +1,6 @@
-{
-  "clientInfo": {
+[
+  {
+    "id": "clientInfo",
     "shortForm": "CI",
     "icon": "person",
     "enabled": "eval this expr  e.g.   $.covers.includes('BI')",
@@ -20,8 +21,7 @@
           "label": "axios action",
           "action": {
             "type": "get",
-            "url": "jsonplaceholder.typicode.com/todos/1"
-            },
+            "url": "jsonplaceholder.typicode.com/todos/1",
             "transition": [
               {
                 "code": 0,
@@ -42,14 +42,19 @@
                 }
               }
             ],
-            "notification" : {
-              "overlay": { "foo": "overlay can contain progress "},
-              "progress": {"comment":"app level progress under title bar"},
-              "event":"alias for snackbar  {msg:'blargh', logMsg:true } ",
-              "dialog":"whatever other temporary notification things exist"
+            "notification": {
+              "overlay": {
+                "foo": "overlay can contain progress "
+              },
+              "progress": {
+                "comment": "app level progress under title bar"
+              },
+              "event": { "log": true, "snackbar": true, "msg":"blargh" } ,
+              "dialog": "whatever other temporary notification things exist"
             }
-
+          }
         },
+
         {
           "type": "TabbedSection",
           "bind": "locations",
@@ -100,7 +105,8 @@
       ]
     ]
   },
-  "fleet": {
+  {
+    "id": "fleet",
     "shortForm": "F",
     "icon": "person",
     "label": "Fleet",
@@ -115,5 +121,5 @@
       ]
     ]
   }
-}
+]
 

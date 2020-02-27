@@ -3,13 +3,22 @@ import {make} from 'vuex-pathify'
 
 const state = {
     theme: 'default-theme',
+    title: 'SampleApp',
+
+    basicApp: {
+        current: {
+            page: null,
+            item: null
+        }
+    },
 
     notification: {
-        snackbar: null,
+        bottomSheet:false,
+        status:null,
+        event: null,
         overlay: null,
         dialog: null,
         progress: null,  // app level progress at bottom of toolbar..
-        spinner: null,
     },
 
     // add 'back','fwd' actions. need to be able to have access to all router navigation methods.

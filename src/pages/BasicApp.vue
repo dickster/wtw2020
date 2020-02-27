@@ -1,46 +1,32 @@
 <template>
 
-    <div>
-    <page
-            :page="currentPage">
-    </page>
-    </div>
+    <page :page="currentPage"></page>
+
 </template>
 
 <script>
 
     import Page from "../components/configurable/Page"
-    import {get,set} from 'vuex-pathify'
+    import {get, set, sync} from 'vuex-pathify'
 
     export default {
         components: {Page},
         props: ['page', 'item'],
 
         computed: {
-            pages: get('app/pages')
+            pages: get('app/pages'),
+            current: sync('app/basicApp@current')
         },
 
         data: () => ({
-            currentPage:null,
+            currentPage: null,
         }),
 
         created() {
-
-            console.log(JSON.stringify(this.$route.params))
-            // commit this to VUEX! along with item.
-            // should put this in VUEX??? nah, it's in the URL...
-            this.currentPage=this.pages[this.page]
-            if (!this.currentPage.id) {
-                // give it default ID based on property name.
-                this.currentPage.id = this.page
-            }
-            // assert config exists...if not jump to error page.  OR commit to VUEX exception. and app will have a
-            // dialog/overlay to show msg.
-            // set('app/exception', {msg: 'cant do this or that', cause:[], })
-
+            this.current = { page: this.page, item: this.item }
+            this.currentPage = this.pages.find(p=>p.id==this.page)
+            if (!this.currentPage) throw  "cant find page " + this.page + "...are you sure you have a page with this id?"
         }
-        // look at page,item, app and load config appropriately.
-        // for RATER app, need drawer config?
 
     };
 </script>

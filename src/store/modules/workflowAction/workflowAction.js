@@ -45,10 +45,9 @@ export default class WorkflowAction {
         console.log('handler == ' + handler())
 
         return new Promise((res, rej) => {
-            this.start()
             Promise.resolve(handler())
                 .then(v => res(this.routeFor(v)))
-                .finally(this.end())
+                .finally()
         })
     }
 
@@ -82,8 +81,6 @@ export default class WorkflowAction {
 
     routeFor(response) {
 
-        console.log('resolving route')
-
         // response is either an object like { code: ??, http: ?? } or a primitive in which case it is assumed to
         // be the equivalent of   { code: <primitiveValue>, http:200 }
         // TODO : lookup.  handle expr like :  [0...100], 1,3,5 !<expr>,  5|200,  [0..100]|>0
@@ -109,7 +106,9 @@ export default class WorkflowAction {
     }
 
     start() {
-        console.log('starting...')
+        // pass any notification object on.
+
+
         // possibly set state depending on action config.
         // action.overlay = {...}
         // action.progress = true||{mode:'circular' etc...}
