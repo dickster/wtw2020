@@ -15,16 +15,15 @@ export default {
     computed: {
         value: {
             get() {
-                // console.log(JSON.stringify(this.config) + ' ' + this.path)
                 return this.accessorService.get(this.path)
             },
             set(v) {
-                // console.log(JSON.stringify(this.config) + ' ' + this.path)
                 return this.accessorService.set(this.path, v)
             }
         },
         componentType() {
             let type=this.config.type
+            // TODO : test to make sure that type 'custom/FooBar' works.  (includes deeper path)
             return () => import(`../components/configurable/${type}.vue`);
         },
         path() {

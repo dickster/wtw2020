@@ -22,23 +22,34 @@
           "action": {
             "type": "get",
             "url": "jsonplaceholder.typicode.com/todos/1",
-            "transition": [
+            "mapParams":"optional JSONata",
+            "mapResponse":"optional JSONata",
+            "bind": "policy.insured optional - use only ${module} if left out",
+            "module": "data/root =default value for optional field",
+            "cc$$":"lookup is optional",
+            "lookup": [
               {
-                "code": 0,
-                "target": {
-                  "path": "/rater/apps/fleet"
+                "matches": { "code": 0 },
+                "value": "next",
+                "merge":true
+              },
+              {
+                "matches": {
+                  "code": {"min":100, "max":200 },
+                  "http": [400,401,{"min":0, "max":5}]
+                },
+                "value": "/rater/apps/fleet"
+              },
+              {
+                "matches": { "code": 1 },
+                "value": {
+                  "page": "clientInfo"
                 }
               },
               {
-                "code": 1,
-                "target": {
-                  "path": "/rater/apps/clientInfo"
-                }
-              },
-              {
-                "comment": "no code or http is catchall - a default version of this should be defined at global level",
-                "target": {
-                  "path": "/rater/apps/fleet"
+                "comment": "no matches is catchall - a default version of this should be defined at global level",
+                "value": {
+                  "path": "/rater/apps/catchallPage"
                 }
               }
             ],

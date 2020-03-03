@@ -8,11 +8,11 @@ import Vuex from 'vuex'
 */
 import pathify from './pathify'
 
+import workflowAction from './modules/workflowAction/store'
 import app from './modules/app/store.js'
 import context from './modules/context/store.js'
 import data from './modules/data/store.js'
 import settings from './modules/settings/store.js'
-import workflowAction from './modules/workflowAction/store'
 import log from './modules/log/store'
 
 Vue.use(Vuex)
@@ -26,16 +26,16 @@ export default new Vuex.Store({
         /* its all declared within the modules..nothing here */
     },
     actions: {
-        test ({ commit }, payload) {
+        test({commit}, payload) {
             console.log('serviceContainer ' + this.$serviceContainer)
-            }
-        },
+        }
+    },
     getters: {
         modules(state) {
-            return Object.keys(_modules).reduce((a,c)=>{
-                a[c]=_modules[c].state;
+            return Object.keys(_modules).reduce((a, c) => {
+                a[c] = _modules[c].state;
                 return a
-            },{})
+            }, {})
         }
     },
     modules: _modules,

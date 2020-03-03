@@ -11,6 +11,7 @@
                     :pages="pages"
                     name="nav">
             </router-view>
+            <v-footer absolute>nav footer</v-footer>
         </left-nav>
 
         <app-header>

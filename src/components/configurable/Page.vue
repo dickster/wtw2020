@@ -3,10 +3,8 @@
     <!--Page basically wraps a bunch of configurable components in a form.  that way it gives you a place to deal with validation. -->
     <v-form v-model="valid" class="configurable-page">
 
-
         <v-btn @click="logit">
             LOG</v-btn>
-        <!--<v-text-field v-model="valid" label="valid (debug)"></v-text-field>-->
         <div v-if="page">
             <v-text-field ref="errorContainer" disabled class="wtw-errors" label="valid" v-model="valid" :rules="rules">
             </v-text-field>

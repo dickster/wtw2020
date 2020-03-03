@@ -1,59 +1,105 @@
-import store from '../store/store'
-import {get,set} from 'vuex-pathify'
-import Vue from 'vue';
-
-
-
-const ActionEventBus = new Vue();
+import axios from 'axios'
 
 
 export default {
 
-    handlers: {
-        'next':a=> this.advance(+1),
-        'prev':a=> this.advance(-1),
-        'first': a=> this.go(0),
-        'last': a=> this.go(),
-        '@post': a=> this.post(a),
-        '@get': a=> this.post(a),
-        '@delete': a=> this.delete(a),
-        '@put': a=> this.post(a),
-        '@method': a=> this.invoke(a)
-         //patch etc...
+    inject: "all",
 
+    handlers : {
+        // TODO : handle other means of communication...
+        // '@socket: v=> this.socket
+        // '@soap: v=> this.soap,
+        '@post': (a,state) => this.doAxios(a, state),
+        '@get': (a,state) => this.doAxios(a, state),
+        '@delete': (a,state) => this.doAxios(a, state),
+        '@put': (a,state) => this.doAxios(a, state),
+        '@method': (a,state) => this.invoke(a, state),
+
+        // handlers like 'next', 'first' etc... are NOP handlers.
+        // they just pass through
     },
 
-    registerHandlers(customHandlers) {
-        // handler contract is to respond with { code:...   msg:... }
-        // Object.keys().forEach(key=>this.handlers[key] = customHandlers[key]
+    getHandler(action) {
+        // if action contains a handler function, give it first priority.  otherwise lookup by action type and id.
+        let id = typeof action == 'string' ? action : action.id
+        return action.handler ||
+            this.handlers[id] ||
+            this.handlers['@' + this.action.type] ||
+            this.nopHandler
     },
 
-    // dispatch action...update VUEX - workflow state.  watch app.current { page: item: }
+    perform(action, rootState={}) {
+        let handler = this.getHandler(action)
 
-    perform(action) {
-        // do default stuff.
-        // use actionHandler to lookup handler and call perform(action).
-        // actions can have different types = METHOD  (fooService.blargh), URL/AXIOS,
-        // e.g. 'next'.
-        // if 'next' -> get list of pages. (not states!) and find the next enabled one.
-        // find the method to call
-        // switch (actionId) {
-        //
-        let handler = this.handlers[action.id] || this.handlers['@'+action.type]
+        return handler(action, rootState)
+            .then(v => this.handleResponse(v, action))
+    },
 
 
+// {
+//     data: {},
+//     status: 200,
+//         statusText: 'OK',
+//     headers: {},
+//     config: {},
+//     request: {}
+// }
+
+    handleResponse(action, response) {
+        // transform response... do JSONata mapping with value
+        let transformedResponse = this.mappingService({value:response, mapping: action.mapResponse})
+        // special type of action that uses state transition table to yield final result which is a router path.
+        transformedResponse = this.lookupService.lookup({value:transformedResponse, table:action.lookup})
+
+        return transformedResponse
+    },
 
 
-        let response = this.transformResponse(handler(action))
+    // HANDLERS...
 
-        let transition = this.doTransition(response  /* assumes current state is known somewhere */)
-        // transition = { pageName:'clientInfo' }
-        // transition = { path:'/rater/clientInfo' }
-        // transition = { name: $namedRoute.  e.g. 'login' }
+    async invoke(action) {
+        // "this" can access all injected services.
+        // e.g. action = 'fooBarService.doSomething'
+        // a useful example might be to use the mappingService on some data.
+        //   that way, some calculations could be done within the JSONata .
+        //   mapping = { result: 'data.x + data.y * 100' }
+        return 0
+    },
 
-        this.$router.push(transition)
+    async nopHandler(action) {
+        return action
+    },
 
+    // TODO : need to ensure that http code is added to all responses
 
-    }
+    async doAxios(action, rootState) {
+        let params = this.mappingService.map({value:rootState, mapping: action.mapParams})
+        return axios[action.type](action.url, params||{})
+    },
+
+    // async put(action) {
+    //     // TODO: add parameters. transform parms first.
+    //     // need to have general error handling.
+    //     return axios.put(this.action.url)
+    // },
+    // async get(action) {
+    //     return axios.get('')
+    // },
+    //
+    // async post(action) {
+    //     return axios.post('')
+    // },
+    //
+    // async delete(action) {
+    //     return axios.delete('')
+    // },
+    //
+    // async patch(action) {
+    //     return axios.patch('')
+    // }
 
 }
+
+
+
+

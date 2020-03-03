@@ -1,22 +1,22 @@
 export default {
 
-    async error({state, commit, rootState}, msg) {
+    async error({state, dispatch, commit, rootState}, msg) {
         return this.log(state, commit, { level: 'error', msg:msg})
     },
 
-    async warning({state, commit, rootState}, msg) {
+    async warning({state, dispatch, commit, rootState}, msg) {
         return this.log(state, commit, { level: 'warning', msg:msg})
     },
 
-    async info({state, commit, rootState}, msg) {
+    async info({state, dispatch, commit, rootState}, msg) {
         return this.log( state, commit, { level: 'info', msg:msg})
     },
 
-    async debug({state, commit, rootState}, msg) {
+    async debug({state, dispatch, commit, rootState}, msg) {
         return this.log(state, commit, { level: 'debug', msg:msg})
     },
 
-    async log({state, commit, rootState}, entry) {
+    async log({state, dispatch, commit, rootState}, entry) {
         // I just store events occurring in this session in VUEX.
         // to see *all* events, you need to read from the DB.
 

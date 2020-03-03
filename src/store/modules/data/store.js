@@ -8,6 +8,11 @@ const state = {
         locations:[{city:'Toronto', country:'Canada'},{city:'Los Angeles', country:'USA'}],
         foo: 'hello',
         bar: 'goodbye'
+    },
+    transient: {
+        // anything you want to put here but dont want to persist as part of state.
+        // for example, you may have RADAR results that you keep during the SPA life, but
+        // dont want to save to the policy DB.
     }
 }
 
