@@ -1,7 +1,7 @@
 import store from '../store/store'
 import {get,set} from 'vuex-pathify'
 
-// typically accessorService is VUEX based but it can be hooked up to any variable, a DB, localStorage whatever...
+// typically accessorService is VUEX based but it can be hooked up to any global variable, a DB, localStorage whatever...
 
 const STOREPREFIX = 'data/root@'
 
@@ -20,6 +20,9 @@ export default {
     },
 
     asPathify(path) {
+
+        // TODO : if string, just return STOREPREFIX + path
+
         // path can be array or string or number...
         // if number, then treat is as an index.
         // e.g. ['client', 'address', 3, 'city'] ==>    data/root@client.address[3].city

@@ -1,22 +1,21 @@
 export default {
 
-    _actionMsg(action) {
-        // TODO : improve this...basic toString for now...
-        return typeof action == 'string' ? action :
-            action.id || '' + ' : ' + action.type || '' + '  ' + action.url || ''
-    },
-
-
     perform(context, action) {
         // change this to dispatch('app/notification', action.notification) because its in a different VUEX module.
 
-        context.dispatch('app/busy', true, {root: true})
-        context.dispatch('app/notification', action.notification, {root: true})
+        // context.dispatch('app/busy', true, {root: true})
+        // context.dispatch('app/notification', action.notification, {root: true})
 
         // this part handles the non-VUEX/Router details.
         // processing/mapping data & return values.
 
-        return this.$serviceContainer.actionService.perform(action, context.rootState)
+        let _actionMsg = function(action) {
+            return typeof action == 'string' ? action :
+                action.id || '' + ' : ' + action.type || '' + '  ' + action.url || ''
+        }
+
+        let that = this
+        return this.$serviceContainer.workflowActionService.perform(action, context.rootState)
             .then(r => {
                 if (action.commit) {
                     // commit could be 'data/update', payload = { ...action, data:response }
@@ -25,9 +24,10 @@ export default {
                     // 'app/updateRoute' payload = { response }
                     context.commit(action.commit, r, {root: true})
                 }
+
                 context.dispatch('log/log', {
                     level: action.level || 'info',
-                    msg: 'success : ' + this._actionMsg(action),
+                    msg: 'success : ' +  _actionMsg(action),
                     ...r
                 }, {root: true})
             }, e => {
@@ -36,11 +36,11 @@ export default {
                 context.dispatch('log/log', {
                     ...e,
                     level: 'error',
-                    msg: 'error running ' + this._actionMsg(action)
+                    msg: 'error running ' + _actionMsg(action)
                 }, {root: true})
             })
             .finally(() => {
-                context.dispatch('app/busy', false, {root: true})
+                // context.dispatch('app/busy', false, {root: true})
             })
 
     },

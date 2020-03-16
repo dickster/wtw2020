@@ -55,7 +55,7 @@ export default new Router({
                 header: {title: 'rootview'},
             },
             name: 'Rater',
-            components: {default: BasicApp, nav:Stepper}
+            components: {default: BasicApp, nav: Stepper}
         },
 
         {
@@ -69,27 +69,72 @@ export default new Router({
         {
             path: '/apps/rater/:page/:item',
             props: {
-                default: (route) => ({page: route.params.page, item:route.params.item}),
+                default: (route) => ({page: route.params.page, item: route.params.item}),
             },
-            components:{default:BasicApp},
+            components: {default: BasicApp},
         },
 
-{
-    path: '/',
-    name: 'helloworld',
-    components: {default: HelloWorld, nav: Stepper}
-},
-{
-    path: '/secret',
-    name: 'secret',
-    components: {default: Secret}
-},
-{
-    path: '/foo',
-    name: 'foo',
-    component: FooBar
-}
+        {
+            path: '/',
+            name: 'helloworld',
+            components: {default: HelloWorld, nav: Stepper}
+        },
+        {
+            path: '/secret',
+            name: 'secret',
+            components: {default: Secret}
+        },
+        {
+            path: '/foo',
+            name: 'foo',
+            component: FooBar
+        },
+
+        {
+            path: '/ils',
+            name: 'ILS',
+            component: FooBar
+        },
+
+        {
+            path: '/ils/project',
+            name: 'ILS',
+            component: Project
+        },
+
+        {
+            path: '/ils/project/reports',
+            name: 'ILS',
+            component: Reports
+        },
+
+        {
+            path: '/ils/project/reports/:section',
+            props: {
+                default: (route) => ({section: route.params.section}),
+            },
+            name: 'ILS',
+            component: ReportSection
+        },
+
+        {
+            path: '/ils/project/settings',
+            name: 'ILS',
+            component: ProjectSettings
+        },
+
+        {
+            path: '/ils/project/runhistory',
+            name: 'ILS',
+            component: RunHistory
+        },
+
+        {
+            path: '/ils/project/runhistory/details',
+            name: 'ILS',
+            component: RunDetails
+        }
 
 
-]
+    ]
 })

@@ -1,10 +1,10 @@
 export default {
 
     // this is an indexedDB based log.  you could replace this with a console.log, or file or REST based one.
-    // you'd have to change the serviceContainer to do this.
+    // you'd have to change serviceContainer.js to do this.
 
     DB_NAME: 'wtw-log',
-    DB_VERSION: 2,
+    DB_VERSION: 3,
 
     // using connection-per-operation.  .: all operations need to call this async method.
     async connect() {

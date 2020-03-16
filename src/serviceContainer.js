@@ -5,29 +5,27 @@ import evaluationService from './services/evaluationService'
 import accessorService from './services/accessorService'
 import mappingService from './services/mappingService'
 import lookupService from './services/lookupService'
-import workflowService from './services/actionService'
+import workflowActionService from './services/workflowActionService'
 
-function injected(container) {
+function inject(container) {
     Object.values(container).forEach(bean => {
-            let names = (bean.inject == 'all') ? Object.keys(beans) : bean.inject || []
-            names.forEach(name => bean[name] = beans[name])
-            console.log(JSON.stringify(bean))
+            let names = (bean.inject == 'all') ? Object.keys(container) : bean.inject || []
+            names.forEach(name => bean[name] = container[name])
         }
     )
-    return container
 }
 
-const beans = {
+const serviceContainer = {
     policyRepository,
     listRepository,
     evaluationService,
     accessorService,
-    workflowService,
+    workflowActionService,
     logRepository,
     lookupService,
     mappingService
 }
 
-const serviceContainer = injected(beans)
+inject(serviceContainer)
 
 export default serviceContainer

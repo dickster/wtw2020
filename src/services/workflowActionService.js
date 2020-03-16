@@ -5,27 +5,33 @@ export default {
 
     inject: "all",
 
-    handlers : {
-        // TODO : handle other means of communication...
-        // '@socket: v=> this.socket
-        // '@soap: v=> this.soap,
-        '@post': (a,state) => this.doAxios(a, state),
-        '@get': (a,state) => this.doAxios(a, state),
-        '@delete': (a,state) => this.doAxios(a, state),
-        '@put': (a,state) => this.doAxios(a, state),
-        '@method': (a,state) => this.invoke(a, state),
-
-        // handlers like 'next', 'first' etc... are NOP handlers.
-        // they just pass through
-    },
+    // handlers : {
+    //     // TODO : handle other means of communication...
+    //     // '@socket: v=> this.socket
+    //     // '@soap: v=> this.soap,
+    //     '@post': (a,state) => this.doAxios(a, state),
+    //     '@get': (a,state) => this.doAxios(a, state),
+    //     '@delete': (a,state) => this.doAxios(a, state),
+    //     '@put': (a,state) => this.doAxios(a, state),
+    //     '@method': (a,state) => this.invoke(a, state),
+    //
+    //     // handlers like 'next', 'first' etc... are NOP handlers.
+    //     // they just pass through
+    // },
 
     getHandler(action) {
         // if action contains a handler function, give it first priority.  otherwise lookup by action type and id.
         let id = typeof action == 'string' ? action : action.id
-        return action.handler ||
-            this.handlers[id] ||
-            this.handlers['@' + this.action.type] ||
-            this.nopHandler
+        if (action.handler) return action.handler
+        switch (action.type) {
+            case 'get':
+            case 'post':
+            case 'put':
+            case 'delete':
+            case 'patch':
+                return this.doAxios.bind(this)
+        }
+        return this.nopHandler
     },
 
     perform(action, rootState={}) {

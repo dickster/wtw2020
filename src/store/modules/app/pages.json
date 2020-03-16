@@ -21,7 +21,7 @@
           "label": "axios action",
           "action": {
             "type": "get",
-            "url": "jsonplaceholder.typicode.com/todos/1",
+            "url": "http://jsonplaceholder.typicode.com/todos/1",
             "mapParams":"optional JSONata",
             "mapResponse":"optional JSONata",
             "bind": "policy.insured optional - use only ${module} if left out",
